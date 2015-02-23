@@ -748,11 +748,9 @@ nucleator-account-rolespec(1) Manual Page
 <h2 id="_synopsis">SYNOPSIS</h2>
 <div class="sectionbody">
 <div class="verseblock">
-<pre class="content"><em>nucleator account setup [options]</em></pre>
-<div class="attribution">
-</div></div>
-<div class="verseblock">
-<pre class="content"><em>nucleator account rolespec list|provision|validate [options]</em></pre>
+<pre class="content"><em>nucleator account rolespec list</em> [options]
+<em>nucleator account rolespec provision</em> [options]
+<em>nucleator account rolespec validate</em> [options]</pre>
 <div class="attribution">
 </div></div>
 </div>
@@ -760,42 +758,216 @@ nucleator-account-rolespec(1) Manual Page
 <div class="sect1">
 <h2 id="_description">DESCRIPTION</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Implements AWS Account setup best practices by providing Nucleator commands that:
-* enable and establish pre-requisite AWS Resources for recommended
-  Account-level AWS Services such as CloudTrail, detailed billing and
-  (future) AWS Config.
-* consistently use IAM Roles to establish minimally permissive access
-  policies, together with required trust policies, that enable devops
-  automation to span multiple AWS Accounts.
-* provide consistent mechanisms to concisely and transparently specify required
-  IAM Roles within Nucleator Stacksets.
-* provision specified Roles within an AWS Account, and validate that
-  cross-account delegation via Roles is functioning as expected.</p></div>
+<div class="paragraph"><p>'nucleator account rolespec` provides convenient tools through which:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+the publishers of Nucleator Stacksets can share specifications for
+  the IAM Role(s) required for the published Stackset to function
+  properly.
+</p>
+</li>
+<li>
+<p>
+a consumer of one or more Nucleator Stacksets can list and review
+  the specified IAM Roles to determine whether or not to use the
+  Stackset and provision the required Roles in a target AWS Account
+</p>
+</li>
+<li>
+<p>
+easily and conveniently provision the specified IAM Roles into a
+  specified AWS Account
+</p>
+</li>
+<li>
+<p>
+validate that required cross-account trust policies have been
+  estabished properly, that provisioned IAM Roles can be assumed and
+  that temporary credentials can be obtained from the AWS Secure Token
+  Service as required for Nucleator to operate across AWS Account
+  boundaries in a secure manner.
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_subcommands">SUBCOMMANDS</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Subcommands span Account-level setup activities, and role maintenance
-activities that result in the creation of IAM Roles required for
-proper functioning of Nucleator Stacksets.</p></div>
 <div class="sect2">
-<h3 id="_account_setup">ACCOUNT SETUP</h3>
-<div class="paragraph"><p>TODO: Describe Purpose</p></div>
-<div class="paragraph"><p>For usage details, refer to <a href="nucleator-account-setup.html">nucleator-account-setup(1)</a></p></div>
+<h3 id="_rolespec_list">ROLESPEC LIST</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator rolespec list</em>
+</dt>
+<dd>
+<p>
+        [--commandname &lt;stackset_name&gt;]
+        [--rolename &lt;role_name&gt;]
+        [-h | --help]
+</p>
+<div class="paragraph"><p>By default, provides a terse listing of role specifications for all installed Nucleator Stacksets.</p></div>
+<div class="paragraph"><p>If <code>--commandname</code> is specified, provides a terse listing of the role specification for the specified <code>&lt;stackset_name&gt;</code>.</p></div>
+<div class="paragraph"><p>If <code>--rolename</code> is specified, provides a full listing of the role with the specified <code>&lt;role_name&gt;</code></p></div>
+</dd>
+</dl></div>
 </div>
 <div class="sect2">
-<h3 id="_iam_role_specification_and_maintenance">IAM ROLE SPECIFICATION AND MAINTENANCE</h3>
-<div class="paragraph"><p>TODO: Describe Purpose</p></div>
-<div class="paragraph"><p>For usage details, refer to <a href="nucleator-account-rolespec.html">nucleator-account-rolespec(1)</a></p></div>
+<h3 id="_rolespec_provision">ROLESPEC PROVISION</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator rolespec provision</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --account &lt;account_name&gt;
+        [--commandname &lt;stackset_name&gt;]
+        [--rolename &lt;role_name&gt;]
+        [-h | --help]
+</p>
+<div class="paragraph"><p>Provisions specified IAM Role(s) in specified AWS Account.</p></div>
+</dd>
+<dt class="hdlist1">
+--customer &lt;customer_name&gt;
+</dt>
+<dd>
+<p>
+        The name of the customer from which configuration for AWS Accounts
+        and Nucleator Cages should be drawn.  See also <a href="#FILES">[FILES]</a>.
+</p>
+</dd>
+<dt class="hdlist1">
+--account &lt;account_name&gt;
+</dt>
+<dd>
+<p>
+        The friendly account name of the AWS Account within which IAM Roles
+        should be provisioned.  The friendly account name is drawn from
+        the configuration file for the specified customer, see also <a href="#FILES">[FILES]</a>.
+</p>
+</dd>
+<dt class="hdlist1">
+--commandname &lt;stackset_name&gt;
+</dt>
+<dd>
+<p>
+        If specified, provisions only those IAM Roles in the role specification
+        for for <code>&lt;stackset_name&gt;</code>.
+</p>
+</dd>
+<dt class="hdlist1">
+--rolename &lt;role_name&gt;
+</dt>
+<dd>
+<p>
+        If specified, provisions only the IAM Role with name &lt;role_name&gt;.
+</p>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_rolespec_validate">ROLESPEC VALIDATE</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator rolespec validate</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --account &lt;account_name&gt;
+        [--commandname &lt;stackset_name&gt;]
+        [--rolename &lt;role_name&gt;]
+        [-h | --help]
+</p>
+<div class="paragraph"><p>Validates that temporary credentials in each target AWS Account can be obtained
+for IAM Role(s) that include a trust policy to NucleatorAgent in a source AWS
+Account.</p></div>
+<div class="paragraph"><p>+
+--customer &lt;customer_name&gt;::
+        The name of the customer for which Nucleator should validate
+        cross-account access.</p></div>
+</dd>
+<dt class="hdlist1">
+--account &lt;account_name&gt;
+</dt>
+<dd>
+<p>
+        Currently unused.  Source and target AWS Account information is drawn
+        from the customer configuration for the specified customer.  See also
+        <a href="#FILES">[FILES]</a>.
+</p>
+</dd>
+<dt class="hdlist1">
+--commandname &lt;stackset_name&gt;
+</dt>
+<dd>
+<p>
+        If specified, validates only those IAM Roles in the role specification
+        for for <code>&lt;stackset_name&gt;</code> that include a trust policy for the
+        NucleatorAgent Principal.
+</p>
+</dd>
+<dt class="hdlist1">
+--rolename &lt;role_name&gt;
+</dt>
+<dd>
+<p>
+        If specified, validates only the IAM Role with name &lt;role_name&gt;, only
+        if that role includes a trust policy for the NucleatorAgent Principal.
+</p>
+</dd>
+</dl></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_see_also">SEE ALSO</h2>
+<h2 id="FILES">FILES</h2>
 <div class="sectionbody">
-<div class="paragraph"><p><a href="nucleator-account-setup.html">nucleator-account-setup(1)</a>,
-<a href="nucleator-account-rolespec.html">nucleator-account-rolespec(1)</a>,</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+~/.nucleator/
+</dt>
+<dd>
+<p>
+        Configuratin directory for local nucleator configuration.
+</p>
+</dd>
+<dt class="hdlist1">
+~/.nucleator/&lt;customer_name&gt;-credentials.yml
+</dt>
+<dd>
+<p>
+        Config file with AWS IAM User credentials to be used by <code>rolespec provision</code>.
+        Credentials can also be provided in the environment variables
+        AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.
+</p>
+</dd>
+<dt class="hdlist1">
+STACKSET_ROOT/ansible/role_specifications.yml
+</dt>
+<dd>
+<p>
+        Role specification file for each Nucleator Stackset.  Role specifications
+        can include multiple required IAM Roles.  A trust policy and access policy
+        are specified for each specified IAM Role.  Trust policies support
+        embedded Jinja2 templates so that cross-account trust can be easily
+        established based on the contents of the customer&#8217;s siteconfig.
+</p>
+</dd>
+<dt class="hdlist1">
+~/.nucleator/siteconfig/&lt;customer&gt;.yml
+</dt>
+<dd>
+<p>
+        Customer configuration file, defines AWS Account friendly names and
+        mappings to Nucleator Cages.  Both of these can be used in Jinja2
+        templates within specified trust polies to implement seamless
+        cross-account access where appropriate.
+</p>
+</dd>
+</dl></div>
 </div>
 </div>
 <div class="sect1">
@@ -808,7 +980,7 @@ proper functioning of Nucleator Stacksets.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-02-18 10:00:46 MST
+Last updated 2015-02-22 21:28:00 MST
 </div>
 </div>
 </body>

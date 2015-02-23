@@ -739,7 +739,7 @@ nucleator-builder(1) Manual Page
 <h2>NAME</h2>
 <div class="sectionbody">
 <p>nucleator-builder -
-   Initialize nucleator local configuration files
+   Install Nucleator and the Nucleator UI in a secure manner within a Nucleator build Cage
 </p>
 </div>
 </div>
@@ -751,50 +751,14 @@ nucleator-builder(1) Manual Page
 <pre class="content"><em>nucleator builder</em></pre>
 <div class="attribution">
 </div></div>
+<div class="paragraph"><p>TODO: Update</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_description">DESCRIPTION</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This command creates a <code>~/.nucleator</code> nucleator local configuration
-directory and deposits initial and template configuration files that
-affect nucleator&#8217;s behavior.</p></div>
-<div class="paragraph"><p>Running <code>nucleator init</code> multiple times is safe.  If you have made local
-changes to initial or template file contents, <code>nucleator init</code>
-will not overwrite them.  See also <a href="#FILES">[FILES]</a>.</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="FILES">FILES</h2>
-<div class="sectionbody">
-<div class="dlist"><dl>
-<dt class="hdlist1">
-~/.nucleator/
-</dt>
-<dd>
-<p>
-        Configuration directory for local nucleator configuration.
-</p>
-</dd>
-<dt class="hdlist1">
-~/.nucleator/sources.yml
-</dt>
-<dd>
-<p>
-        Source specification for Nucleator Stacksets that should be installed
-        by <code>nucleator update</code>.
-</p>
-</dd>
-<dt class="hdlist1">
-~/.nucleator/distkeys.yml
-</dt>
-<dd>
-<p>
-        Distibution keys that should be used while accessing private repository(ies)
-        used in <code>sources.yml</code>.
-</p>
-</dd>
-</dl></div>
+<div class="paragraph"><p>The <code>builder</code> command and its subcommands provide a Stackset that includes Nucleator, Ansible, Nucleator&#8217;s User Interface and Artifactory.  Nucleator is installed in a secure manner within a Nucleator <code>build</code> Cage.  The Nucleator User Interface provides a Jenkins-based interface and job history for Nucleator-related actions.</p></div>
+<div class="paragraph"><p>TODO: Update</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -807,7 +771,7 @@ will not overwrite them.  See also <a href="#FILES">[FILES]</a>.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-02-18 10:00:46 MST
+Last updated 2015-02-22 21:43:33 MST
 </div>
 </div>
 </body>
