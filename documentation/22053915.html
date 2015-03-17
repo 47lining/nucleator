@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Accessing a Private Redshift Cluster using an SSH Tunnel through your Cage&#39;s Bastion Server</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="How-to-Use-Nucleator_21463194.html">How to Use Nucleator</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="Using-Nucleator-Stacksets_21464140.html">Using Nucleator Stacksets</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Accessing a Private Redshift Cluster using an SSH Tunnel through your Cage&#39;s Bastion Server</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+How to securely access a private Redshift cluster from outside Nucleator
+</div></div><p> </p><p>You may wish to create Redshift clusters without public accessibility to ensure that your private data stays private.  It is Nucleator's default behavior to limit access to a Redshift cluster to only requests inside of your Cage.  Redshift cluster login names and passwords are often insufficient to protect sensitive data and using the added protection of VPCs provides a desirable additional layer of security.  Even though direct access has be prevented, access from within the Cage and external access through secure tunnels can still be provided.</p><h2 id="AccessingaPrivateRedshiftClusterusinganSSHTunnelthroughyourCage&#39;sBastionServer-PrivateRedshiftClusterConnectivityfromWithinCage">Private Redshift Cluster Connectivity from Within Cage</h2><p>Access to such a private Redshift cluster can be achieved by other instances within your Cage.  You can test this connectivity with psql command line tool.  </p><p>First, log in to an ec2 instance with the cage (bastion in this example):</p><p> </p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">ssh -F ~/.nucleator/ssh-config/&lt;customer&gt;/&lt;cage&gt; bastion-&lt;cage&gt;</pre>
+</div></div><p> </p><p>For demonstration purposes, install psql:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">sudo yum install postgresql postgresql-contrib</pre>
+</div></div><p><span style="line-height: 1.4285715;"><br /></span></p><p><span style="line-height: 1.4285715;">Now you can test a connection to your Redshift cluster</span></p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">psql -h {redshift-dns-name} -v schema=public -p 5439 -U {user_name} -d {db_name} -c &quot;SELECT * from information_schema.tables limit 5;”</pre>
+</div></div><p> </p><p>This command should produce table descriptions for the first 5 informational tables.  No user data needs to be added to Redshift to view this information.  If an error or no information is produced the connection to the Redshift cluster is not correct.</p><p>You can use the method above to test connections to Redshift clusters from other instances within the same Cage.  For some Redshift use models this level of connectivity may be all that is needed but for most use models Redshift connectivity from outside of the cage will be desired (see below).  Either way it is advised that you test Redshift connection within the cage to ensure correct functionality.</p><h2 id="AccessingaPrivateRedshiftClusterusinganSSHTunnelthroughyourCage&#39;sBastionServer-PrivateRedshiftClusterConnectivityfromtheInternet">Private Redshift Cluster Connectivity from the Internet</h2><p>Most BI (Business Intelligence) tools will not be running inside of a customer Cage and in many cases the additional layer of security provided by a VPCs will be desired.  It is still possible to connect to a private Redshift cluster in one of two ways - establishing a VPN (virtual private network) connection to the Cage or connecting through a secure ssh tunnel.  Nucleator currently provides direct support for connectivity through a secure ssh tunnel.  Each of these methods have their own pros and cons:</p><ul><li><strong>VPN Connection</strong> (Not yet implemented):<ul><li>Pro - More flexible since this will include the client computer virtually within the Cage's public subnet, enabling access to selected private services within the Cage</li><li>Pro - VPN User and key management functionality available from several VPN software providers</li><li>Con - Can be less secure due to greater cage access, network bridging risk, and full access to cage for other users of the BI system</li><li>Con - More complex, requires installation and management of VPN Software or use of an AWS VPN Gateway to on-premise networks</li></ul></li><li><strong>SSH Tunnel Connection:</strong><ul><li>Pro - More secure: Limited connectivity for only the Redshift connection port and only to the Redshift master node</li><li>Pro - Simple - requires no additional software</li><li>Con - Requires process for management and rotation of ssh keys to be used for SSH Tunneling</li></ul></li></ul><h3 id="AccessingaPrivateRedshiftClusterusinganSSHTunnelthroughyourCage&#39;sBastionServer-EstablishingInternetconnectiontoprivateRedshiftclusterusingVPN">Establishing Internet connection to private Redshift cluster using VPN</h3><p>This approach has not yet been implemented in Nucleator.  In the future, it may be supported through a vpn Stackset that introduces a VPN server(s) to the public subnets of your Cage.</p><h3 id="AccessingaPrivateRedshiftClusterusinganSSHTunnelthroughyourCage&#39;sBastionServer-EstablishingInternetconnectiontoprivateRedshiftclusterusingsshtunnel">Establishing Internet connection to private Redshift cluster using ssh tunnel</h3><p>The remote login tool ssh and its Windows cousins <a href="http://www.putty.org" class="external-link" rel="nofollow">putty</a> and/or <a href="http://msysgit.github.io/" class="external-link" rel="nofollow">git bash</a> provide secure login access and also allow for port tunneling on top of the login connection.  To establish such a connection an ssh session to the bastion server will be required.  The ssh tunnel to bastion can be established by:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">ssh -L 15439:&lt;redshift_dns_name&gt;:5439 -i ~/.nucleator/&lt;customer&gt;-&lt;account&gt;-&lt;region&gt;.pem ec2-user@bastion.&lt;cage&gt;.&lt;customer_domain&gt;</pre>
+</div></div><p>This connection assumes that the Redshift cluster is on the standard Redshift port of 5439.  If you are using a different port the port number after the <code>&lt;redshift_dns_name&gt;</code> will also need to change.  The choice of the local port 15439 is complete arbitrary and just needs to be a port not in use by the local computer.</p><p>It is important to note that this tunnel will remain open as long as the ssh session is active.  If the ssh connection is closed the tunnel will also close.  </p><p>To connect your BI tools running outside of the cage to the Redshift cluster within the cage your BI tool will need to connect to the local port number (15439 in this example) on the computer that established the ssh connection.  You can test the ability to connect to the Redshift cluster through an established ssh tunnel by using psql connection to the local port on the tunnel:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">psql -h localhost -v schema=public -p 15439 -U {user_name} -d {db_name} -c &quot;SELECT * from information_schema.tables limit 5;”</pre>
+</div></div><p>Again this command should produce table descriptions for the first 5 informational tables.</p><p>In the same way other BI tools can be pointed to port 15439 on localhost to establish connection to the private Redshift cluster.</p><p> </p><hr /><p>Next: <a href="Using-Nucleator-for-Continuous-Integration-and-Delivery_21463248.html">Using Nucleator for Continuous Integration and Delivery</a></p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>

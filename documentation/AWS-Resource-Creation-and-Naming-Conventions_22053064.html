@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: AWS Resource Creation and Naming Conventions</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="How-Nucleator-Manages-AWS-Resources_22053511.html">How Nucleator Manages AWS Resources</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>AWS Resource Creation and Naming Conventions</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+How Nucleator uses CloudFormation and adheres to design rules and conventions to consistently name AWS Resources across multiple AWS services.
+</div></div><h2 id="AWSResourceCreationandNamingConventions-AWSResourceAssociationwithCloudFormationStacks">AWS Resource Association with CloudFormation Stacks</h2><p>Nucleator uses AWS CloudFormation extensively to create, manage and update AWS Resources within Nucleator Core Stacksets.  Each Stackset invokes a top-level CloudFormation stack that hierarchically invokes child CloudFormation stacks.  The top-level CloudFormation stack is named based on the Stackset name, Customer name and Account friendly name so that it can be easily identified.  Related child stacks are all prefixed with the name of their parent stack.</p><p>This approach associates all AWS resources that are provisioned within a Nucleator Stackset to the created CloudFormation template(s), and provides a strong mechanism that signals the purpose, intent and lifecyle requirements for each of the Resources that comprise the CloudFormation stack.</p><p>CloudFormation templates can be tricky to maintain and edit by hand.  The CloudFormation template that underlies each of these stacks is generated dynamically from templates and config/variables files that are maintained within Nucleator.  Common settings that change within the template are in many cases exernalized into YAML config files that make it easy for administrators to reflect their intent for common use cases (e.g. changing network ACL ingress/egress rules).  The approach also makes it possible to use CloudFormation's extensive capabilities to update stacks in place in running environments.</p><p>The association of resources with CloudFormation stacks also makes it straightforward to delete and re-create environments.  The Nucleator CLI exposes the ability to delete the top-level CloudFormation stack for each Stackset, which in turn propagates to deletion of child stacks.  The CloudFormation service manages the orchestration of resource deletion and considers ordering and dependencies among resources within each stack.</p><h2 id="AWSResourceCreationandNamingConventions-AWSResourceNaming">AWS Resource Naming</h2><p>Associating Nucleator-provisioned resources with CloudFormation stacks provides one way to reliably identify sets of related resources over the lifecycle of your AWS Account.</p><p>Nucleator also names resources consistently, across multiple AWS Services.  Nucleator also propagates names that are persisted in tags to related downstream resources (e.g. name propagation from ec2 resources to EBS volumes and snapshots).</p><p>Nucleator names resources in such a way that they will not conflict with resources created for other Stacksets, Cutomers, Cages or Accounts.  This means that the names of resources include lots of business-meets-operations information that can also be used in the filtering and search functions of the AWS management console to help Ops and Business contributors to find resources.</p><p>Sometimes names assigned in one context create conflicts with underlying limitations associated with various AWS services.  In some cases Nucleator will transform provided underlying name fragments to ensure that names are appropriately unique, remove precluded characters, transform characters (e.g. &quot;.&quot; to &quot;-&quot; in S3 names) and/or shorten names through the use of reproducible hashes.</p><h2 id="AWSResourceCreationandNamingConventions-KeyBenefits">Key Benefits</h2>    <div class="aui-message hint shadowed information-macro">
+                    <p class="title">Key Benefits</p>
+                            <span class="aui-icon icon-hint">Icon</span>
+                <div class="message-content">
+                            <p>Nucleator's approach to consistent resource naming and association with CloudFormation stacks provides the following benefits:</p><ul><li>Simplified resource governance; related resources are named consistently and associated through the structure of CloudFormation stacks</li><li>Related resources can be easily discovered through the &quot;Resources&quot; tab in CloudFormation and by navigating parent/child stack relationships</li><li>Orchestration code for provisioning and resource dependency management is delegated to CloudFormation (important, this means you don't have to write and maintain it)</li><li>Deleting and re-provisioning related sets of resources is straightforward</li><li>Many common changes can be made via tweaks to yaml configs that flow into generated CloudFormation templates that flow into in-place Updates to running environments</li><li>Consistent design rules for resource naming means the user spends less energy working out and resolving naming conflicts and name restrictions on cloud resources for various services.</li><li>Consistently named resources across multiple accounts makes it easier to use the filtering and search capabilities of the AWS Management Console, improves clarity-of-purpose for provisioned infrastructure, and makes ops less error-prone</li></ul>
+                    </div>
+    </div>
+<p> </p><hr /><p>Next: <a href="Nucleator-Resource-Tagging_22053508.html">Nucleator Resource Tagging</a></p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>

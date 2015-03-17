@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Installing Nucleator</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="How-to-Use-Nucleator_21463194.html">How to Use Nucleator</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="Installing-and-Configuring-Nucleator_21463207.html">Installing and Configuring Nucleator</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Installing Nucleator</h1>
+        <p><span style="color: rgb(255,0,0);"> </span></p><div class="panel" style="border-width: 1px;"><div class="panelContent">
+How to get Nucleator
+</div></div><p><span style="color: rgb(255,0,0);"> </span></p><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1426568757959 {padding: 0px;}
+div.rbtoc1426568757959 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1426568757959 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1426568757959'>
+<ul class='toc-indentation'>
+<li><a href='#InstallingNucleator-Prerequisites'>Prerequisites</a></li>
+<li><a href='#InstallingNucleator-Install'>Install</a></li>
+<li><a href='#InstallingNucleator-Initialize'>Initialize</a></li>
+<li><a href='#InstallingNucleator-AlternateInstallMethod'>Alternate Install Method</a></li>
+<li><a href='#InstallingNucleator-Advanced'>Advanced</a></li>
+</ul>
+</div></p><h1 id="InstallingNucleator-Prerequisites">Prerequisites</h1>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">1. Install Prerequisites</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <p> You must install all pre-requisites listed in this section. Installation suggestions are provided, but specific installation methods may vary based on your underlying Linux distribution.</p>
+                    </div>
+    </div>
+<p>You will need to install on your local machine:</p><ul><li>Python 2.7x</li><li>Python setup tools (pip)</li><li>Python developer tools (required for Ansible pre-requisites)</li><li><p>Git</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">sudo apt-get install python2.7 python-pip python-dev git </pre>
+</div></div></li><li><p>47Lining patched version of Ansible with STS support</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">git clone --recursive --depth 1 -b nucleator_distribution https://github.com/47lining/ansible.git &amp;&amp; cd ansible &amp;&amp; sudo python setup.py install</pre>
+</div></div></li><li><p>The following python dependencies for Ansible and Nucleator will be installed automatically as part of the Ansible and Nucleator installation commands </p><ul><li><p>Ansible: paramiko,  Jinja2, PyYaml, httplib, boto, pycrypto</p></li><li>Nucleator: awscli, boto, graffiti-monkey</li></ul></li></ul><p style="margin-left: 60.0px;">boto must be version 2.34 or greater, with support for STS.</p><h1 id="InstallingNucleator-Install"><span style="font-size: 24.0px;line-height: 1.25;">Install</span></h1><p>You can have pip install Nucleator directly from the git repository. </p>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">2. Install Nucleator</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <p> Run this command: </p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">pip install --upgrade git+ssh://github.com/47lining/nucleator-core.git</pre>
+</div></div><p>If your python installation requires root access, be sure to add a <code>sudo</code> to the beginning of the above command.</p>
+                    </div>
+    </div>
+<p style="margin-left: 10.0px;"><span style="color: rgb(0,0,0);">This will install the nucleator command which will be used for the duration of the install, provision, configure cycle.</span></p><h1 style="margin-left: 10.0px;" id="InstallingNucleator-Initialize">Initialize</h1>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">3. Initialize Nucleator Config</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <p> Run:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">nucleator init</pre>
+</div></div>
+                    </div>
+    </div>
+<p>This validates the installation of prerequisites, creates a nucleator configuration directory named <code>.nucleator</code> in your home directory, and copies template and example configuration files into your nucleator configuration directory.</p><p>If Nucleator detects issues with the pre-requisites, it will display commands that will need to be run. When prerequisites are missing, Nucleator may show results like this:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">Checking ansible Installation
+ERROR: Prerequisite ansible not found.
+Nucleator requires ansible to run. You can install it with all 47Lining pull requests via:
+ git clone --recursive -b nucleator_distribution https://github.com/47lining/ansible.git
+ cd ansible; sudo python setup.py install</pre>
+</div></div><p>Please follow the instructions to install dependencies if needed.</p><h1 id="InstallingNucleator-AlternateInstallMethod"><span style="font-size: 24.0px;line-height: 1.25;">Alternate Install Method</span></h1><p>If you are experiencing issues with pip, you can alternatively:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">git clone https://github.com/47lining/nucleator-core.git
+cd nucleator-core
+python setup.py install</pre>
+</div></div><p>If your python installation requires root access, be sure to add a <code>sudo</code> to the beginning of the <code>python setup.py</code>... command above.</p><h1 id="InstallingNucleator-Advanced"><span style="color: rgb(0,0,0);font-size: 24.0px;line-height: 1.25;font-family: Arial , sans-serif;">Advanced</span></h1><ul style="list-style-type: square;"><li><span style="color: rgb(0,0,0);">Virtualenv - You can run Nucleator within a python virtualenv.  You should take care regarding installation of prerequisites in this case.  Nucleator will need to be able to obtain its pre-requisites from within the virtualenv where it was installed. If running Nucleator from a virtual environment, both Nucleator and its prerequisites need to be installed on that virtual environment.  That is, it is generally not sufficient for Nucleator prerequisites to be installed outside the python virtualenv where Nucleator is running, on the machine that is hosting the virtualenv.</span><br /><span style="color: rgb(0,0,0);"><br /></span></li></ul><hr /><p style="text-align: left;">Next: <a href="Creating-your-own-Siteconfig-Repository_22054061.html">Creating your own Siteconfig Repository</a></p><p style="text-align: left;"> </p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>

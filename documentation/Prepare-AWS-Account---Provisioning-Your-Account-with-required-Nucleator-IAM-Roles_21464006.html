@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Prepare AWS Account - Provisioning Your Account with required Nucleator IAM Roles</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="How-to-Use-Nucleator_21463194.html">How to Use Nucleator</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="Preparing-New-AWS-Accounts-for-use-with-Nucleator_21464098.html">Preparing New AWS Accounts for use with Nucleator</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Prepare AWS Account - Provisioning Your Account with required Nucleator IAM Roles</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+How to ask Nucleator to help you to install required IAM Roles using your IAM User Credentials, so that Nucleator can work securely on your behalf while provisioning and configuration Cages and Stacksets. <span>How, when and why you use IAM User Credentials with Nucleator.</span>
+</div></div>    <div class="aui-message success shadowed information-macro">
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <ul class="inline-task-list" data-inline-tasks-content-id="21464006">
+<li data-inline-task-id="1"><span><a href="Prepare-AWS-Account---Provisioning-Your-Account-with-required-Nucleator-IAM-Roles_21464006.html">List</a> and review Roles and Policies required for your Stacksets</span></li>
+<li data-inline-task-id="2"><span><a href="Prepare-AWS-Account---Provisioning-Your-Account-with-required-Nucleator-IAM-Roles_21464006.html">Provision</a> Roles in each Account where you would like Nucleator to work on your behalf</span></li>
+<li data-inline-task-id="3"><span><a href="Prepare-AWS-Account---Provisioning-Your-Account-with-required-Nucleator-IAM-Roles_21464006.html">Validate</a> that Nucleator can use the provisioned Roles in each target Account</span></li>
+</ul>
+
+
+                    </div>
+    </div>
+    <div class="aui-message hint shadowed information-macro">
+                            <span class="aui-icon icon-hint">Icon</span>
+                <div class="message-content">
+                            See also <a href="nucleator-account-rolespec.html" target="_blank">nucleator-account-rolespec</a> in the <a href="nucleator.html" target="_blank">Nucleator CLI Reference.</a>
+                    </div>
+    </div>
+<h1 id="PrepareAWSAccount-ProvisioningYourAccountwithrequiredNucleatorIAMRoles-listListandReviewRolesandPoliciesRequiredforyourStacksets"><span class="confluence-anchor-link" id="PrepareAWSAccount-ProvisioningYourAccountwithrequiredNucleatorIAMRoles-list"></span>List and Review Roles and Policies Required for your Stacksets</h1><p>In order to securely interact with your AWS account, each Nucleator Stackset requires that a set of IAM Roles that the Stackset defines exist within your Account with specific Security Policies.  These Roles provide the minimal set of permissions that the Stackset requires to function as intended.  You can review each Role and its required Policies prior to creating the Roles within your Account. The Nucleator CLI can generate a list of all of the Roles expected by the Stacksets that you have installed.</p>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">Review Roles specified by your installed Stacksets</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <ul class="inline-task-list" data-inline-tasks-content-id="21464006">
+<li data-inline-task-id="4"> Review the list of roles:</li>
+</ul>
+
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">nucleator account rolespec list</pre>
+</div></div><ul class="inline-task-list" data-inline-tasks-content-id="21464006">
+<li data-inline-task-id="5">Review the detailed policy for a specified role:</li>
+</ul>
+
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">nucleator account rolespec list --rolename &lt;rolename&gt;</pre>
+</div></div>
+                    </div>
+    </div>
+<p>Nucleator Stacksets include independent Roles for each Operation undertaken by the Stackset.  The policies for each of these Roles are minimally permissive and cover only those permissions required to undertake the corresponding Operation for that Stackset.  For example, the beanstalk Stackset includes distinct Roles for:</p><ul><li><code>NucleatorBeanstalkProvisioner</code> – Role assumed when provisioning Elastic Beanstalk Resources.</li><li><code>NucleatorBeanstalkServiceRunner</code> – Role assumed by Beanstalk Web Tier or Worker Tier instances to which the Beanstalk Application is deployed.</li><li><code>NucleatorBeanstalkDeleter</code> – Role assumed when Deleting Elastic Beanstalk Resources.</li></ul><p>If you would like to preclude Nucleator from certain operations (e.g. delete), you can elect not to provision the corresponding Roles within your Account.</p><h1 id="PrepareAWSAccount-ProvisioningYourAccountwithrequiredNucleatorIAMRoles-provisionProvisionRolesinEachAccountWhereYouWouldLikeNucleatortoWorkonYourBehalf"><span class="confluence-anchor-link" id="PrepareAWSAccount-ProvisioningYourAccountwithrequiredNucleatorIAMRoles-provision"></span>Provision Roles in Each Account Where You Would Like Nucleator to Work on Your Behalf</h1><p>Nucleator can use IAM User Credentials that you provide to provision the Roles and Policies described by <code>nucleator account rolespec list</code> within your AWS Account.  The IAM User Credentials need to provide only the limited set of IAM permissions that are required to create the Roles and Policies.  Previously these permisisons were granted to an IAM User <code>NucleatorUser</code> as described in <a href="Establish-IAM-Users-and-Minimal-Configuration-in-New-AWS-Account_21464022.html">Establish IAM Users and Minimal Configuration in New AWS Account</a>.  You provide the IAM User Credentials in the customer credentials file within your <a href="22053491.html">Nucleator config</a>.</p><p>For Nucleator Stacksets to function as intended, you must provision all of the Roles specified by a Stackset in each Account where that Stackset will be used.</p><p>While it is convenient to use Nucleator to provision the required Roles on your behalf, you can also create each required Role manually using the AWS Management Console.</p>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">Provision Roles specified by your currently installed Stacksets</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <ul class="inline-task-list" data-inline-tasks-content-id="21464006">
+<li data-inline-task-id="6"><span>For each Account, for each Customer where you intend to use Nucleator Stacksets:<br /></span></li>
+</ul>
+
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">nucleator account rolespec provision --account &lt;account_friendly_name&gt; --customer &lt;customer_name&gt;</pre>
+</div></div>
+                    </div>
+    </div>
+<h1 id="PrepareAWSAccount-ProvisioningYourAccountwithrequiredNucleatorIAMRoles-validateValidateThatNucleatorCanUsetheProvisionedRolesinEachTargetAccount"><span class="confluence-anchor-link" id="PrepareAWSAccount-ProvisioningYourAccountwithrequiredNucleatorIAMRoles-validate"></span>Validate That Nucleator Can Use the Provisioned Roles in Each Target Account</h1><p><span style="color: rgb(255,0,0);"> </span>Nucleator uses trust policies specified in the Nucleator Roles to enable seamless cross-Account operations by a trusted Principal in a specified &quot;control&quot; Account. This Principal is trusted by Nucleator Roles that require cross-Account access, in each of a Customer's Accounts where those Roles have been provisioned.  Nucleator defines a <code>NucleatorAgent</code> Role that acts as this trusted Principal.  Nucleator Role trust the <code>NucleatorAgent</code> Principal in the Account that has been configured to contain a Customer's <code>build</code> Cage.</p><p>While nothing in Nucleator's design for cross-Account operations would preclude it, Nucleator does not currently support cross-Account operations that span different Nucleator Customers. That is, it is not currently possible to use Nucleator config to specify one Customer's intent to trust a NucleatorAgent Principal that is provisioned in a different Customer's Account.  Cross-Account operations are supported for all Accounts assoicated with a single Nucleator Customer.</p><p>Nucleator performs cross-Account Operations by assuming each of the Roles specified by the Nucleator Stacksets.</p><p>To ensure that Roles have been provisioned correctly, Nucleator can validate its ability to assume each of the IAM Roles specified by each of the currently installed Stacksets.  Nucleator must be able to assume each of these Roles in each of the Accounts that are specified in the Customer's configuration.</p>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">Validate Nucleator&#39;s ability to assume Roles</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <ul class="inline-task-list" data-inline-tasks-content-id="21464006">
+<li data-inline-task-id="7">Validate all specified Roles in all of a Customer's configured Accounts:</li>
+</ul>
+
+<div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">nucleator account rolespec validate --customer 47lining </pre>
+</div></div>
+                    </div>
+    </div>
+<p> </p><p>Nucleator can validate Roles for all of a specified Customer's Accounts, or just a specified Account.  If no Account is specified as a filter, Nucleator validates all Accounts within the specified Customer's configuration.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">nucleator account rolespec validate --account test1 --customer 47lining</pre>
+</div></div><p> </p><p>Nucleator can validate all of the Roles for all of the Nucleator commands that are currently installed, or just the Roles for a specified command.  If no command is specified as a filter, Nucleator validates all commands that are currently installed.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">nucleator account rolespec validate --command redshift --customer 47lining</pre>
+</div></div><p> </p><p>Nucleator can also validate just a specific role name.</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">nucleator account rolespec validate --rolename BeanstalkServiceRunner --customer 47lining</pre>
+</div></div><pre> </pre><p><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);"> </span></span></p><hr /><p><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">Next:</span> <span style="color: rgb(0,0,0);"><a href="Prepare-AWS-Account---Use-Nucleator-to-Automatically-Create-Prerequisite-AWS-Resources-in-Account_20545641.html">Prepare AWS Account - Use Nucleator to Automatically Create Prerequisite AWS Resources in Account</a></span><br /></span></p><div><span style="font-family: monospace;white-space: pre;"><br /></span></div>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>

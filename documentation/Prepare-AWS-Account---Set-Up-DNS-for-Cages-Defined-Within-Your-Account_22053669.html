@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Prepare AWS Account - Set Up DNS for Cages Defined Within Your Account</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="How-to-Use-Nucleator_21463194.html">How to Use Nucleator</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="Preparing-New-AWS-Accounts-for-use-with-Nucleator_21464098.html">Preparing New AWS Accounts for use with Nucleator</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Prepare AWS Account - Set Up DNS for Cages Defined Within Your Account</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+How to set up external DNS to route to the Nucleator Cages that you have defined
+</div></div><h2 id="PrepareAWSAccount-SetUpDNSforCagesDefinedWithinYourAccount-ConfigureDNS">Configure DNS</h2><p><code><a href="Prepare-AWS-Account---Use-Nucleator-to-Automatically-Create-Prerequisite-AWS-Resources-in-Account_20545641.html">account setup</a></code> creates Hosted Zones in AWS Route53 for each of the Cages listed in the <a href="22053491.html">customer configuration file</a> (<code>~/.nucleator/siteconfig/&lt;customer_name&gt;.yml</code>) for the specified Customer.  To support easy external DNS name resolution of instances that Stacksets define to be externally resolvable, the DNS nameservers for the domain that you've specified for <code>customer_domain</code> must delegate to the Nucleator created hosted zone(s) responsibility for name resolution for servers within each defined Nucelator Cage.  Because different Customers may user different DNS services to manage their specified <code>customer_domain</code>, Nucleator does not attempt to automate this step.  Connection of each defined Cage to DNS resolution services needs to occurs manually immediately after the account setup process, and remains available to each defined Cage as the Cage is repeatedly provisioned and destroyed.  Nucleator Stacksets manage the provisioning of DNS records within the hosted zone provisioned by the Cage.  In order for these records to be resolvable, manual setup of DNS to delegate from the <code>customer_domain</code> to each defined Cage's hosted zone is required to complete account setup.</p><h3 id="PrepareAWSAccount-SetUpDNSforCagesDefinedWithinYourAccount-ExampleDNSResolutionPath">Example DNS Resolution Path</h3><p>We'll use resolution of the <code>bastion</code> server for a customer's <code>build</code> Cage as an example and assume that the <span>customer_domain</span> is one level below your top level domain.  A typical DNS resolution path for this case is:</p><p style="text-align: left;"><img class="confluence-embedded-image" src="attachments/22053669/22282338.png" data-image-src="attachments/22053669/22282338.png"></p><p>We will describe the process of delegating from <code>customer_domain </code>to each Cage's hosted zone in three scenarios:</p><ol><li><strong><a href="Prepare-AWS-Account---Set-Up-DNS-for-Cages-Defined-Within-Your-Account_22053669.html">Customer DNS in Route 53.</a></strong>  <code>customer_domain</code> is managed in AWS Route53, most likely in an Account that is unrelated to Nucleator usage.</li><li><a href="Prepare-AWS-Account---Set-Up-DNS-for-Cages-Defined-Within-Your-Account_22053669.html"><strong>Customer DNS outside AWS</strong>.</a>  <code style="line-height: 1.4285715;">customer_domain</code> is managed using a DNS system outside of AWS.</li><li><strong><a href="Prepare-AWS-Account---Set-Up-DNS-for-Cages-Defined-Within-Your-Account_22053669.html">Customer Domain from free provider.</a>  </strong>I don't own a domain where I can control NS records and would like to establish a no-cost subdomain so I can try out Nucleator.</li></ol><h3 id="PrepareAWSAccount-SetUpDNSforCagesDefinedWithinYourAccount-route53CustomerDomainisManagedinAWSRoute53"><span class="confluence-anchor-link" id="PrepareAWSAccount-SetUpDNSforCagesDefinedWithinYourAccount-route53"></span>Customer Domain is Managed in AWS Route53</h3><p>If you are using AWS Route53 to manage DNS for your specified <code>customer_domain</code>, you just need to add an NS record to the hosted zone that is authoritative for <code>customer_domain</code> for each of the Cages that you've defined for the specified Customer.  The NS record for each Cage should include all of the nameservers that are specified in the Hosted Zone that was created for that Cage by <code>nucleator account setup</code>.</p>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">Add NS Record for each defined Cage in Route53</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <p><strong>In your target Account:</strong> </p><ul class="inline-task-list" data-inline-tasks-content-id="22053669">
+<li data-inline-task-id="1"><span>In your target Account, use the AWS Management Console to navigate to the Route53 hosted zone created for each Cage that you've defined for your customer. The hosted zone will be named <code>&lt;cage_name&gt;.&lt;customer_domain&gt;</code>. In the example above, the hosted zone would be named <code>build.department.example.com</code>. Select the hosted zone and &quot;Go to Record Sets&quot;.</span></li>
+<li data-inline-task-id="2"><span>Choose the single NS record within the hosted zone for the selected Cage with name <code>&lt;cage_name&gt;.&lt;customer_domain&gt;</code>.</span></li>
+<li data-inline-task-id="3"><span>Copy the values of the four nameservers from the record detail in the right pane.</span></li>
+</ul>
+
+<p><span><br /></span></p><p><span><strong>In the Account which you or your organization uses to manage authoritative DNS records for <code>&lt;customer_domain&gt;</code>:</strong> </span></p><ul class="inline-task-list" data-inline-tasks-content-id="22053669">
+<li data-inline-task-id="4"><span>Use the AWS Management Console to navigate to the Route53 hosted zone that includes authoritative records for <code>&lt;customer_domain&gt;</code></span></li>
+<li data-inline-task-id="5"><span>Add a NS record with the name <code>&lt;cage_name&gt;.&lt;customer_domain&gt;</code>. In the example above, the NS record would be named <code>build.department.example.com</code>. Paste the four nameservers copied above into the value of the NS record.</span><span><br /></span></li>
+</ul>
+
+
+                    </div>
+    </div>
+<p>After a brief delay, the hosted zone for your Cage should begin to resolve in the global DNS system.  You can test this to validate that it is working:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">dig +short NS &lt;cage_name&gt;.&lt;customer_domain&gt; # returns nameservers for the hosted zone created for your Cage
+ 
+dig +short SOA &lt;cage_name&gt;.&lt;customer_domain&gt; # returns Source of Authority for the hosted zone created for your Cage</pre>
+</div></div><h3 id="PrepareAWSAccount-SetUpDNSforCagesDefinedWithinYourAccount-externalCustomerDomainisManagedExternally"><span class="confluence-anchor-link" id="PrepareAWSAccount-SetUpDNSforCagesDefinedWithinYourAccount-external"></span>Customer Domain is Managed Externally</h3><p>Customer DNS setups can vary dramatically.  While Route53 is performant and convenient, you do not need to use Route53 as the DNS Service for your specified <code>customer_domain</code> in order to use Nucleator.  You do need to be able to add NS records for each Cage to the zone file that is authoritative for <code>customer_domain</code>.</p>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">Add NS Record for each defined Cage in Route53</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <p><strong>In your target Account:</strong> (same steps as above)</p><ul class="inline-task-list" data-inline-tasks-content-id="22053669">
+<li data-inline-task-id="6">In your target Account, use the AWS Management Console to navigate to the Route53 hosted zone created for each Cage that you've defined for your customer. The hosted zone will be named <code>&lt;cage_name&gt;.&lt;customer_domain&gt;</code>. In the example above, the hosted zone would be named <code>build.department.example.com</code>. Select the hosted zone and &quot;Go to Record Sets&quot;.</li>
+<li data-inline-task-id="7">Choose the single NS record within the hosted zone for the selected Cage with name <code>&lt;cage_name&gt;.&lt;customer_domain&gt;</code>.</li>
+<li data-inline-task-id="8">Copy the values of the four nameservers from the record detail in the right pane.</li>
+</ul>
+
+<p> </p><p><strong>With the DNS Service Provider for <code>&lt;customer_domain&gt;</code>:</strong> </p><ul class="inline-task-list" data-inline-tasks-content-id="22053669">
+<li data-inline-task-id="9">Navigate to the zone file or other mechanism provided by your DNS service provider for managing authoritative records for <code>&lt;customer_domain&gt;</code></li>
+<li data-inline-task-id="10">Add a NS record with the name <code>&lt;cage_name&gt;.&lt;customer_domain&gt;</code>. In the example above, the NS record would be named <code>build.department.example.com</code>. Specify the four nameservers copied above within the NS record.</li>
+</ul>
+
+
+                    </div>
+    </div>
+<p>After a brief delay, the hosted zone for your Cage should begin to resolve in the global DNS system.  You can test this to validate that it is working using the same method as described above.</p><h3 id="PrepareAWSAccount-SetUpDNSforCagesDefinedWithinYourAccount-freeCustomerDomainisProvidedbyaFreeSubdomainProvider"><span class="confluence-anchor-link" id="PrepareAWSAccount-SetUpDNSforCagesDefinedWithinYourAccount-free"></span>Customer Domain is Provided by a Free Subdomain Provider</h3><p>To illustrate this case we will use a free hosted subdomain service from <code>freedns.afraid.org.</code></p><p>The following example will create and use a free hosted subdomain from <a href="http://freedns.afraid.org" class="external-link" rel="nofollow">http://freedns.afraid.org</a> to establish a subdomain that can be used as Nucleator's <code>customer_domain</code>.  In this example we will create a subdomain at freedns.afraid.org, and a manually created hosted zone within Route53 that together will provide a resolvable <code>customer_domain</code> to which we can add authoritative DNS records.  In this example we will use <code>customer_domain</code> of <code>fredco.mooo.com</code>, and configure DNS resolution for a defined Nucleator <code>build</code> Cage.  If you do not own a domain where you can create NS records, this approach will also allow you to try out Nucleator without needing to purchase one.</p>    <div class="aui-message success shadowed information-macro">
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <ol><li>Sign-up for a free account at <a href="http://freedns.afraid.org" class="external-link" rel="nofollow">http://freedns.afraid.org</a> - instructions on their web-site<br /> </li><li>Create a subdomain for any of their available top domains - mooo.com in this example<ol><li>Create an NS record for your customer - fredco in this example</li><li>Leave your browser window open for the addition of the nameserver info<br /> </li></ol></li><li>In your target AWS Account, manually create a new external Hosted Zone in Route53 (new browser tab) for fredco.mooo.com<br /> </li><li>Copy name server information to freedns.afraid.com<ol><li>Enter detail page for the hosted zone created in the prior step by clicking on &quot;fredco.mooo.com&quot; in route53</li><li><span>Choose the single NS record within the hosted zone </span>for &quot;fredco.moo.com&quot; and copy one of the name server names (.com) into your cut buffer (without the trailing '.')</li><li>Paste the name server name into the &quot;Destination&quot; field of the free hosted subdomain on freedns.afraid.com and save</li><li>Your DNS record at freedns.afraid.org should look similar to : <br /><img class="confluence-embedded-image" src="attachments/22053669/22282343.png" data-image-src="attachments/22053669/22282343.png"><br /><br />You now have an externally resolvable subdomain at <code>fredco.mooo.com</code> to which you can add authoritative DNS records though the <code>fredco.mooo.com</code> Route53 hosted zone that you created.<br /> </li></ol></li><li>Delegate to the hosted zone for the <code>build</code> Cage from <code>fredco.mooo.com</code><ol><li>In the Route53 hosted zone page select <code>build.fredco.mooo.com</code> and &quot;Go to Hosted Zone&quot; </li><li>Choose the single NS record within the hosted zone with name <code>build.fredco.mooo.com.</code></li><li>Copy the values of the four nameservers from the record detail in the right pane.</li><li>In the Route53 hosted zone page select <code>fredco.mooo.com</code> and &quot;Go to Hosted Zone&quot;</li><li>Create Record Set, Set type to <code>NS</code>, paste the <code>build</code> cage nameservers into the destination and save record</li><li>The new hosted zone for fredco.mooo.com should look like: <br /><img class="confluence-embedded-image" src="attachments/22053669/22282344.png" data-image-src="attachments/22053669/22282344.png"> <br />where the NS records for the build.fredco.mooo.com come from the cage hosted zone information created by Nucleator also within route53<br /> </li></ol></li><li>Repeat step 5 for all the Nucleator cages defined in the <a href="22053491.html">customer configuration file</a> (<code>~/.nucleator/siteconfig/&lt;customer_name&gt;.yml</code>)</li></ol>
+                    </div>
+    </div>
+<p> </p><p>Once complete:</p><ul><li>the <code>mooo.com</code> name servers are delegating references to <code>fredco.mooo.com</code> to the nameserver within the manually created Route53 Hosted Zone <code>fredco.mooo.com</code>.</li><li>This nameserver in turn is delegating references to <code>build.fredco.mooo.com</code> to the nameservers within the <code>build</code> Cage Route53 Hosted Zone <code>build.fredco.mooo.com</code> that were automatically created by <code>nucleator account setup</code> .</li><li>These nameservers, established by <code>nucleator account setup</code>, will include DNS records for any externally resolvable instances provisioned within the Nucleator <code>build</code> Cage, for example <code>bastion.build.fredco.mooo.com</code>. </li></ul><p> </p><hr /><p>Next: <a href="Prepare-AWS-Account---Set-Up-Billing-and-Reporting_22053920.html">Prepare AWS Account - Set Up Billing and Reporting</a></p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>

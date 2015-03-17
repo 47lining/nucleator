@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 8.6.9">
+<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+<meta name="Author" content="47Lining LLC">
+<meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+<meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+<title>Nucleator: nucleator-setup(1)</title>
+
+<link rel="stylesheet" href="../css/cli.css" type="text/css">
+
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+
+
+
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+</head>
+<body class="manpage">
+
+    <div class="page">
+      <div class="secondaryHeader">
+        <a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+                    <li>
+              <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+            </li>
+                      </ol>
+        </div>
+        <h1> Nucleator CLI Reference </h1>
+
+
+<div id="header">
+<h1>
+nucleator-setup(1) Manual Page
+</h1>
+<h2>NAME</h2>
+<div class="sectionbody">
+<p>nucleator-setup -
+   manage the site configuration files
+</p>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_synopsis">SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="verseblock">
+<pre class="content"><em>nucleator setup show</em>
+<em>nucleator setup wizard</em>
+<em>nucleator setup validate</em></pre>
+<div class="attribution">
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The Nucleator system relies on a set of files which describe the components
+of your installation.  This is described in the User&#8217;s Guide on the page titled
+"Nucleator Configuration Process Overview"</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_subcommands">SUBCOMMANDS</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_siteconfig_show">SITECONFIG SHOW</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator setup show</em>
+</dt>
+<dd>
+<div class="paragraph"><p><span class="monospaced">nucleator setup show</span> creates a rudimentary display of the existing
+site configuration set of files.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_siteconfig_wizard">SITECONFIG WIZARD</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator setup wizard</em>
+</dt>
+<dd>
+<div class="paragraph"><p><span class="monospaced">nucleator setup wizard</span> asks you a series of questions enabling you
+to simply create the suite of site configuration files.  Prior to starting
+the wizard you should know what AWS accounts you will be using and for each
+account you will need the account number, access key and secret key.  This
+information can be read from the AWS Management Console.</p></div>
+<div class="paragraph"><p>In the simplest possible case, you can create one cage in one account,
+in the region you select.  By entering the three
+required fields (account number, access key and secret key), and selecting
+default values, all the appropriate configuration files will be created for you.</p></div>
+<div class="paragraph"><p>For ongoing maintenance of the files, a good practice would be to create a Git
+repository to store the files with verions.  This will also enable the Nucleator
+User Interface to have access to the site configuration files.</p></div>
+<div class="paragraph"><p>As you run the wizard, default values, when present, are shown in brackets <em>[]</em>.
+Just press enter if you want to use the default value offered.</p></div>
+<div class="paragraph"><p>If you want to create multiple cages, just enter a new cage name when asked, and
+it will ask the questions for that cage.  Similarly, if you have multiple accounts,
+you can enter the number and keys for each account.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_siteconfig_validate">SITECONFIG VALIDATE</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator setup validate</em>
+</dt>
+<dd>
+<div class="paragraph"><p>Attempts to validate the existing site configuration including sources of updates
+and distribution keys.  TO BE IMPLEMENTED.</p></div>
+</dd>
+</dl></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="FILES">FILES</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+~/.nucleator/
+</dt>
+<dd>
+<p>
+        Configuration directory for local nucleator configuration.
+</p>
+</dd>
+<dt class="hdlist1">
+~/.nucleator/&lt;customer_name&gt;-credentials.yml
+</dt>
+<dd>
+<p>
+        File with AWS access key and secret key.
+</p>
+</dd>
+<dt class="hdlist1">
+&lt;customer_name&gt;.yml
+</dt>
+<dd>
+<p>
+        Customer configuration file, defines Cages supported for customer
+        including mapping each cage to a specified AWS Account and Region.
+</p>
+</dd>
+<dt class="hdlist1">
+&lt;customer_name&gt;-&lt;cage_name&gt;.yml
+</dt>
+<dd>
+<p>
+        Cage configuration file, allows refinements to network address space
+        used by this cage.  One file is created for each cage you define.
+</p>
+</dd>
+<dt class="hdlist1">
+&lt;cage_name&gt;.crt
+</dt>
+<dd>
+<p>
+        An SSL certificate that will be used on the nucleator-ui and nucleator machines.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nucleator">NUCLEATOR</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Part of the <a href="nucleator.html">nucleator(1)</a> suite</p></div>
+</div>
+</div>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+        <a href="../installation.html">Installation</a>
+        <a href="index.html">Documentation</a>
+        <a href="../releases.html">Releases</a>
+        <a href="../license.html">License</a>
+        <a href="../community.html">Community</a>
+      </div>
+      <footer>
+        &copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>
+</body>
+</html>

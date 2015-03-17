@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Nucleator Concepts and Domain Model</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Nucleator Concepts and Domain Model</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+Key concepts used by Nucleator to define and manage the problem space
+</div></div><p>Nucleator defines the following key concepts to allow you to create scalable, secure and redundant AWS architectures.</p><dl class="meet">
+  <dt>Customer</dt><dd><p xmlns="http://www.w3.org/1999/xhtml">Nucleator can support multiple Customers in each Nucleator config. In a simple Nucleator installation, there may only be a single Customer, for your company. When using Nucleator to support managed services engagements, there may be a Customer for your company, and multiple additional Customers for your company's customers, or for your customer's customers.</p><p xmlns="http://www.w3.org/1999/xhtml">In Nucleator, each Customer has a corresponding DNS domain (e.g. <code>47lining.com</code>, or <code>internalgroup.example.com</code>) through which that customer's resources can be accessed.</p><p xmlns="http://www.w3.org/1999/xhtml">Nucleator can manage one or more AWS Accounts per Customer. Each Customer must specify at least one AWS Account.</p></dd>  <dt>Cage</dt><dd><p xmlns="http://www.w3.org/1999/xhtml">A Cage is a distinct VPC, provisioned on behalf of a single customer, within which additional infrastructure can be deployed. A Cage in Nucleator is similar to a Cage in physical data center.</p><p xmlns="http://www.w3.org/1999/xhtml">In Nucleator, each Cage is named based on its purpose, and is resolved via DNS as a subdomain of the Cage's Customer's DNS domain (e.g. <code>build.47lining.com</code>).</p><p xmlns="http://www.w3.org/1999/xhtml">Each Cage is provisioned within exactly one of the Cage's Customer's AWS Accounts. The configuration for the Cage specifies the AWS Account in which the Cage should be provisioned.</p><p xmlns="http://www.w3.org/1999/xhtml">One or more Stacksets can be provisioned within each Cage.</p></dd>  <dt>AWS Account</dt><dd><p xmlns="http://www.w3.org/1999/xhtml">Nucleator can manage AWS infrastructure that is deployed across one or more AWS Accounts for each Customer. Allocation of infrastructure to AWS Accounts is managed at the granularity of a Cage. Each Cage is provisioned in exactly one AWS Account. Any Stacksets provisioned within that Cage will be provisioned within the same AWS Account as the Cage.</p></dd>  <dt>Stackset</dt><dd>A Stackset is a defined set of AWS CloudFormation Stacks whose creation, updates and deletes are orchestrated by Nucleator. Stacksets implement useful and often re-usable functionality that build upon a Nucleator Cage, and are often based upon AWS Reference Architectures. For example, the <code xmlns="http://www.w3.org/1999/xhtml">builder</code> Stackset, provisioned within the <code xmlns="http://www.w3.org/1999/xhtml">build</code> Cage provides a Nucleator user interface and other services useful for continuous integration and deployment environment maintenance that are accessible via <code xmlns="http://www.w3.org/1999/xhtml">nucleator.build.47lining.com</code>, <code xmlns="http://www.w3.org/1999/xhtml">nucleator-ui.build.47lining.com</code> and <code xmlns="http://www.w3.org/1999/xhtml">artifactory.build.47lining.com</code>.</dd></dl><p> </p><p>The diagram below illustrates key concepts used by Nucleator.</p><p><img class="confluence-embedded-image image-center" src="attachments/21463187/21692675.jpg" data-image-src="attachments/21463187/21692675.jpg"></p><p> </p><p>The diagram below illustrates key concepts used by Nucleator using a simple example.</p><p><img class="confluence-embedded-image image-center" src="attachments/21463187/21692673.jpg" data-image-src="attachments/21463187/21692673.jpg"></p><p> </p><p>The diagram below illustrates Nucleator scaling relationships.</p><p><img class="confluence-embedded-image image-center" src="attachments/21463187/21692677.jpg" data-image-src="attachments/21463187/21692677.jpg"></p><p> </p><p>The diagram below describes what is inside of Stackset.</p><p><img class="confluence-embedded-image image-center" src="attachments/21463187/21692678.jpg" data-image-src="attachments/21463187/21692678.jpg"></p><p> </p><p>The diagram below illustrates an example deployment.</p><p><img class="confluence-embedded-image image-center" src="attachments/21463187/21692674.jpg" data-image-src="attachments/21463187/21692674.jpg"></p><p> </p><hr /><p>Next: <a href="How-Nucleator-Manages-AWS-Resources_22053511.html">How Nucleator Manages AWS Resources</a></p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>

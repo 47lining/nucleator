@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Contributing to Nucleator</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Contributing to Nucleator</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+How to contribute to the Nucleator project
+</div></div><h1 id="ContributingtoNucleator-ContributingtoNucleator">Contributing to Nucleator</h1><p><br /> 47Lining is a strong supporter of open source software. We believe that open sourcing Nucleator is a great way to get a useful tool into the hands of users and maximize the potential bandwidth to make Nucleator better.<br /><br />We want to keep it as easy as possible to contribute fixes / new features to keep the project moving forward. There are a few guidelines that we would like contributors to follow so that we can have a chance of keeping on top of things.</p><h2 id="ContributingtoNucleator-NucleatorCorevsStacksets">Nucleator Core vs Stacksets</h2><p>New functionality is typically focused on new Stackset implementations that make it easy to deploy and manage sets of purpose-built AWS infrastructure. Nucleator has a designed mechanism for defining the Stacksets that are available to your Nucleator installation. The sources.yml file in your .nucleator directory contains a set of git URLs that define what Nucleator Stacksets are available to you and localized in your .nucleator/contrib directory. This means that if you want to make a new Stackset available to the Nucleator user community, all you have to do is publish it in a publicly-accessible github account. Nucleator users can simply add an entry to .nucleator/sources.yml pointing to your repository, run 'nucleator update' and start using your Stackset.</p><p>The &quot;Nucleator Core&quot; is currently defined as the nucleator-core repository that implements the common functionality of Nucleator, along with a limited set of nucleator-core-* Stacksets. The nucleator-core Stacksets are generally focused on either setting up core Nucleator prerequisites in AWS or providing examples of how to leverage the Nucleator Core to implement common sets of infrastructure (Elastic Beanstalk instances, Amazon Redshift clusters, etc.). If you are unsure of whether your contribution should be implemented as a separate Stackset or part of Nucleator Core, ask on the <a href="https://groups.google.com/forum/#!forum/nucleator-dev" class="external-link" rel="nofollow">nucleator-dev mailing list</a> for advice.</p><h2 id="ContributingtoNucleator-GettingStarted">Getting Started</h2><ul><li>Make sure you have a <a href="https://github.com/signup/free" class="external-link" rel="nofollow">GitHub account</a></li><li>Submit a ticket for your issue, assuming one does not already exist.</li><li>Clearly describe the issue including steps to reproduce when it is a bug.</li><li>Make sure you fill in the earliest version that you know has the issue.</li><li>Fork the repository on GitHub</li></ul><h2 id="ContributingtoNucleator-MakingChanges">Making Changes</h2><ul><li>Create a topic branch from where you want to base your work. This is usually the master branch.</li><li>Only target release branches if you are certain your fix must be on that branch.</li><li>To quickly create a topic branch based on master; `git checkout -b fix/master/my_contribution master`. Please avoid working directly on the `master` branch.</li><li>Make commits of logical units.</li><li>Check for unnecessary whitespace with `git diff --check` before committing.</li><li>Make sure your commit messages are descriptive and include a reference to GitHub issue when appropriate.</li><li>Be sure to test your fixes / features as completely as possible.</li></ul><h2 id="ContributingtoNucleator-SubmittingChanges">Submitting Changes</h2><ul><li>Push your changes to a topic branch in your fork of the repository.</li><li>Submit a pull request to the appropriate repository in the 47lining organization.</li><li>The core team looks at Pull Requests on a regular basis.</li><li>After feedback has been given we expect responses within two weeks. After two weeks will may close the pull request if it isn't showing any activity.</li></ul><h2 id="ContributingtoNucleator-LicensingandIP">Licensing and IP</h2><ul><li>Nucleator Stacksets released as separately-owned repositories may carry any license the author desires, so long as that license allows invocation of the Stackset by the <a href="http://www.apache.org/licenses/LICENSE-2.0.html" class="external-link" rel="nofollow">Apache 2.0-licensed</a> Nucleator Core.</li><li>Code and intellectual property contributed to Nucleator Core must be releasable under the Apache 2.0 license.</li></ul><h2 id="ContributingtoNucleator-AdditionalResources">Additional Resources</h2><ul><li><a href="http://help.github.com/" class="external-link" rel="nofollow">General GitHub documentation</a></li><li><a href="http://help.github.com/send-pull-requests/" class="external-link" rel="nofollow">GitHub pull request documentation</a> </li></ul><p> </p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>
