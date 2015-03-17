@@ -75,11 +75,29 @@ in-depth introductions and <a href="nucleator.html">Nucleator CLI Reference</a> 
 <div class="sect1">
 <h2 id="_step_0_prerequisites">STEP 0 - PREREQUISITES</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>You will need to install on your local machine:
-* Python 2.7x
-* Python setup tools (pip)
-* Python developer tools (required for Ansible pre-requisites)
-* Git</p></div>
+<div class="paragraph"><p>You will need to install on your local machine:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Python 2.7x
+</p>
+</li>
+<li>
+<p>
+Python setup tools (pip)
+</p>
+</li>
+<li>
+<p>
+Python developer tools (required for Ansible pre-requisites)
+</p>
+</li>
+<li>
+<p>
+Git
+</p>
+</li>
+</ul></div>
 <div class="paragraph"><p>To install:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.6
@@ -98,11 +116,11 @@ http://www.gnu.org/software/src-highlite -->
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt># (If your python installation does not requires root access to install, remove "sudo" from the next two commands)
+<pre><tt># (If your python installation does not require root access to install, remove "sudo" from the next two commands)
 
 cd /tmp &amp;&amp; git clone --recursive --depth 1 -b nucleator_distribution https://github.com/47lining/ansible.git &amp;&amp; cd ansible &amp;&amp; sudo python setup.py install
 
-sudo pip install --upgrade git+git://github.com/47lining/nucleator-core.git
+sudo pip install --upgrade git+ssh://github.com/47lining/nucleator-core.git
 
 nucleator init</tt></pre></div></div>
 </div>
@@ -110,11 +128,11 @@ nucleator init</tt></pre></div></div>
 <div class="sect1">
 <h2 id="_step_2_fork_the_public_nucleator_core_siteconfig_github_repository">STEP 2 - FORK THE PUBLIC nucleator-core-siteconfig GITHUB REPOSITORY</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>For your first use of Nucleator, this quickstart recommends that you use a public siteconfig.  Once you&#8217;ve seen how Nucleator Cages and Stacksets work, you can create a private siteconfig repository and provide Nucleator with a distribution key to access it.  (If more information on setting up a github account see <a href="https://help.github.com/articles/set-up-git/">https://help.github.com/articles/set-up-git/</a> )</p></div>
+<div class="paragraph"><p>For your first use of Nucleator, this quickstart recommends that you use a public siteconfig.  Once you&#8217;ve seen how Nucleator Cages and Stacksets work, you can create a private siteconfig repository and provide Nucleator with a distribution key to access it.  (For more information on setting up a github account see <a href="https://help.github.com/articles/set-up-git/">https://help.github.com/articles/set-up-git/</a> )</p></div>
 <div class="olist loweralpha"><ol class="loweralpha">
 <li>
 <p>
-log into github and navigate to <span class="monospaced">https://github.com/47lining/nucleator-core-siteconfig</span>
+log into github and navigate to <a href="https://github.com/47lining/nucleator-core-siteconfig">https://github.com/47lining/nucleator-core-siteconfig</a>
 </p>
 </li>
 <li>
@@ -145,13 +163,12 @@ git clone &lt;clone_url_noted_above&gt;</tt></pre></div></div>
 <div class="sect1">
 <h2 id="_step_3_update_stackset_sources_to_use_your_personal_siteconfig">STEP 3 - UPDATE STACKSET SOURCES TO USE YOUR PERSONAL SITECONFIG</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Edit the Stackset sources list in <span class="monospaced">~/.nucleator/sources.yml</span> and
-change the siteconfig stanza to include the <span class="monospaced">&lt;clone_url_noted_above&gt;</span>.
-Use the <span class="monospaced">git://</span> protocol as a clear signal that authentication is not
-required (just replace the <span class="monospaced">https://</span> in the https clone url with
-<span class="monospaced">git://</span>).  After an initial pass through the quickstart, you can read
-the User&#8217;s Guide to learn more about how to specify a private
-repository in <span class="monospaced">soures.yml</span>.</p></div>
+<div class="paragraph"><p>Edit the Stackset sources list in <span class="monospaced">~/.nucleator/sources.yml</span> and change
+the siteconfig stanza to include the <span class="monospaced">&lt;clone_url_noted_above&gt;</span>.
+Use the <span class="monospaced">git://</span> protocol so authentication is not required (just replace
+the <span class="monospaced">https://</span> in the https clone url with <span class="monospaced">git://</span>).  After an initial
+pass through the quickstart, you can read the User&#8217;s Guide to learn more
+about how to specify a private repository in <span class="monospaced">sources.yml</span>.</p></div>
 <div class="paragraph"><p>Do this:</p></div>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.6
@@ -178,7 +195,7 @@ http://www.gnu.org/software/src-highlite -->
 <div class="olist loweralpha"><ol class="loweralpha">
 <li>
 <p>
-To create a new AWS Account, visit the AWS Console: <span class="monospaced">https://console.aws.amazon.com/</span>
+To create a new AWS Account, visit the AWS Console: <a href="https://console.aws.amazon.com/">https://console.aws.amazon.com/</a>
 </p>
 </li>
 <li>
@@ -198,12 +215,9 @@ If you are visiting the console using your AWS Console shortcut link for
 <p>
 Complete the Account Signup process using the conventions described below
 </p>
-<div class="literalblock">
-<div class="content monospaced">
-<pre>Account Name: `&lt;youraccountname&gt;-&lt;yourcustomername&gt;`
-Account Email: `&lt;youraccountname&gt;.accounts.aws.&lt;yourcustomername&gt;@&lt;customer_domain.com&gt; # recommended convention`
-Console Shortcut: `https://&lt;youraccountname&gt;-&lt;yourcustomername&gt;.signin.aws.amazon.com/console`</pre>
-</div></div>
+<div class="paragraph"><p><strong>Account Name:</strong> <span class="monospaced">&lt;youraccountname&gt;-&lt;yourcustomername&gt;</span></p></div>
+<div class="paragraph"><p><strong>Account Email:</strong> <span class="monospaced">&lt;youraccountname&gt;.accounts.aws.&lt;yourcustomername&gt;@&lt;customer_domain.com&gt; # recommended convention</span></p></div>
+<div class="paragraph"><p><strong>Console Shortcut:</strong> <span class="monospaced">https://&lt;youraccountname&gt;-&lt;yourcustomername&gt;.signin.aws.amazon.com/console</span></p></div>
 </li>
 </ol></div>
 </div>
@@ -390,86 +404,120 @@ details on this issue and how to address it.</p></div>
 commit them to your github repository so that Nucleator will be able
 to use them.  While still in you local clone you can review the config
 file changes that the wizard has made, or that you have manually made:</p></div>
-<div class="paragraph"><p>[source,txt] git status git diff</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>git status
+git diff</tt></pre></div></div>
 <div class="paragraph"><p>Add, commit and push your updated configuration:</p></div>
-<div class="paragraph"><p>[source,txt] git add --all :/ git commit -m "updated config with
-customer a, account b and cage c" git push</p></div>
-<div class="paragraph"><p>STEP 8 - NUCLEATOR UPDATE -------------------------</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>git add --all :/
+git commit -m "updated config with customer &lt;a&gt;, account &lt;b&gt; and cage &lt;c&gt;"
+git push</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_8_nucleator_update">STEP 8 - NUCLEATOR UPDATE</h2>
+<div class="sectionbody">
 <div class="paragraph"><p>Do this:</p></div>
-<div class="paragraph"><p>[source,txt] nucleator update</p></div>
-<div class="paragraph"><p>Nucleator update pulls current copies of all Stacksets that you have
-chosen to be part of your Nucleator installation.  You should run
-<span class="monospaced">nucleator update</span> whenever: * you add Stacksets to your selected
-sources * you change the version of a Stackset you are using * you
-modify a Stackset without changing the Stackset version, and you want
-Nucleator to see those changes</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>nucleator update</tt></pre></div></div>
+<div class="paragraph"><p>Nucleator update pulls current copies of all Stacksets that you have chosen to be part of your Nucleator installation.  You should run <span class="monospaced">nucleator update</span> whenever:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+you add Stacksets to your selected sources
+</p>
+</li>
+<li>
+<p>
+you change the version of a Stackset you are using
+</p>
+</li>
+<li>
+<p>
+you modify a Stackset without changing the Stackset version, and you want Nucleator to see those changes
+</p>
+</li>
+</ul></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_step_9_provision_nucleator_roles_in_your_account">STEP 9 - PROVISION NUCLEATOR ROLES IN YOUR ACCOUNT</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Nucleator needs to establish some attributes in your account like iam
-roles in order to execute correctly.  To do this run:</p></div>
-<div class="paragraph"><p>[source,txt] ---- nucleator account rolespec provision --customer
-&lt;yourcustomername&gt; --account &lt;youraccountname&gt;</p></div>
-<div class="literalblock">
-<div class="content monospaced">
-<pre># to ensure all the roles were created successfully nucleator
-account rolespec validate --customer &lt;yourcustomername&gt; --account
-&lt;youraccountname&gt; ----</pre>
-</div></div>
-<div class="paragraph"><p>STEP 10 - ACCOUNT SETUP ----------------------</p></div>
-<div class="paragraph"><p>Next Nucleator needs to set up specific account resources for proper
-operation such as creating s3 buckets.  To do this run:</p></div>
-<div class="paragraph"><p>[source,txt] PYTHONUNBUFFERED=1 nucleator account setup --customer
-    &lt;yourcustomername&gt; --account &lt;youraccountname&gt; | tee
-    /tmp/account_setup.out</p></div>
-<div class="paragraph"><p>STEP 11 - DNS SETUP -------------------</p></div>
-<div class="paragraph"><p>More detailed instructions on DNS set-up are in the User&#8217;s Guide
-section entitled
-<a href="Prepare-AWS-Account---Set-Up-DNS-for-Cages-Defined-within-your-Account_22053669.html">Prepare
-AWS Account - Set Up DNS for Cages Defined within your Account</a> You
-will need an externally resolvable Subdomain to which you have
-authority to add Nameserver records.</p></div>
+<div class="paragraph"><p>Nucleator needs to establish some attributes in your account like iam roles in order to execute correctly.  To do this run:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>    nucleator account rolespec provision --customer &lt;yourcustomername&gt; --account &lt;youraccountname&gt;
+
+    # to ensure all the roles were created successfully
+    nucleator account rolespec validate --customer &lt;yourcustomername&gt; --account &lt;youraccountname&gt;</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_10_account_setup">STEP 10 - ACCOUNT SETUP</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Next Nucleator needs to set up specific account resources for proper operation such as creating s3 buckets.  To do this run:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>PYTHONUNBUFFERED=1 nucleator account setup --customer &lt;yourcustomername&gt; --account &lt;youraccountname&gt; | tee /tmp/account_setup.out</tt></pre></div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_11_dns_setup">STEP 11 - DNS SETUP</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>More detailed instructions on DNS set-up are in the User&#8217;s Guide section entitled <a href="Prepare-AWS-Account---Set-Up-DNS-for-Cages-Defined-within-your-Account_22053669.html">Prepare AWS Account - Set Up DNS for Cages Defined within your Account</a> You will need an externally resolvable Subdomain to which you have authority to add Nameserver records.</p></div>
 <div class="paragraph"><p>For each Cage that you have defined for your Customer:</p></div>
 <div class="olist loweralpha"><ol class="loweralpha">
 <li>
 <p>
-In the AWS console go to Route53 &#8594; Hosted Zones and select the
-hosted zone created by account setup for the current Cage.  "Go to
-Record Sets".
+In the AWS console go to Route53 &#8594; Hosted Zones and select the hosted zone created by account setup for the current Cage.  "Go to Record Sets".
 </p>
 </li>
 <li>
 <p>
-Copy the Name Servers of the Hosted Zone by selecting its single
-<span class="monospaced">NS</span> record, and selecting and copying the four nameservers from the
-pane on the right.
+Copy the Name Servers of the Hosted Zone by selecting its single <span class="monospaced">NS</span> record, and selecting and copying the four nameservers from the pane on the right.
 </p>
 </li>
 <li>
 <p>
-Go to the system that you use to maintain authoritative <span class="monospaced">NS</span>
-records for the <span class="monospaced">customer_domain</span> that you specified during step 6. <br>
+Go to the system that you use to maintain authoritative <span class="monospaced">NS</span> records for the <span class="monospaced">customer_domain</span> that you specified during step 6.
 </p>
 <div class="ulist"><ul>
 <li>
 <p>
-Add a single <span class="monospaced">NS</span> record with the name of the current Cage and a
-value that specifies the four nameservers copied above.  + For
-example, for customer_domain <span class="monospaced">somedepartment.mycompany.com</span> and Cage
-<span class="monospaced">build</span>, you will create an NS record
-<span class="monospaced">build.somedepartment.mycompany.com</span> with a value that specifies the
-four nameservers copied above.
+Add a single <span class="monospaced">NS</span> record with the name of the current Cage and a value that specifies the four nameservers copied above.
 </p>
+<div class="paragraph"><p>For example, for customer_domain <span class="monospaced">somedepartment.mycompany.com</span> and Cage <span class="monospaced">build</span>, you will create an NS record <span class="monospaced">build.somedepartment.mycompany.com</span> with a value that specifies the four nameservers copied above.</p></div>
 </li>
 </ul></div>
 </li>
 <li>
 <p>
-Verify that the DNS updates have propagated + [source,txt] dig
-+short NS build.somedepartment.mycompany.com
+Verify that the DNS updates have propagated
 </p>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>dig +short NS build.somedepartment.mycompany.com</tt></pre></div></div>
 </li>
 </ol></div>
 </div>
@@ -478,35 +526,38 @@ Verify that the DNS updates have propagated + [source,txt] dig
 <h2 id="_step_12_provision_and_configure_cage">STEP 12 - PROVISION AND CONFIGURE CAGE</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>You can now provision and configure your first Nucleator Cage:</p></div>
-<div class="paragraph"><p>[source,txt] PYTHONUNBUFFERED=1 nucleator cage provision --customer
-&lt;yourcustomername&gt; --cage build | tee /tmp/cage_provision.out
-PYTHONUNBUFFERED=1 nucleator cage configure --customer
-&lt;yourcustomername&gt; --cage build | tee /tmp/cage_configure.out</p></div>
-<div class="paragraph"><p>Note that it can take a few minutes for cage resources to be
-provisioned and become available. You can use the CloudFormation AWS
-console to see the current status and progress of provisioning while
-these commands are running.</p></div>
-<div class="paragraph"><p>Once complete the builder user interface can be accessed at
-<span class="monospaced">https://nucleator-ui.&lt;cage&gt;.&lt;customer-domain&gt;</span>.  The initial login
-information is available in <span class="monospaced">~/.nucleator/&lt;customer&gt;-credential.yml</span>.</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>PYTHONUNBUFFERED=1 nucleator cage provision --customer &lt;yourcustomername&gt; --cage build | tee /tmp/cage_provision.out
+PYTHONUNBUFFERED=1 nucleator cage configure --customer &lt;yourcustomername&gt; --cage build | tee /tmp/cage_configure.out</tt></pre></div></div>
+<div class="paragraph"><p>Note that it can take a few minutes for cage resources to be provisioned and
+become available. You can use the CloudFormation AWS console to see the
+current status and progress of provisioning while these commands are running.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_step_13_create_a_builder_stackset">STEP 13 - CREATE A BUILDER STACKSET</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Nuceator support several stacksets that can be created within a cage.
-The builder stackset provides a user interface for creating additional
-stacksets.  To do this run:</p></div>
-<div class="paragraph"><p>[source,txt] PYTHONUNBUFFERED=1 nucleator builder provision --customer
-&lt;yourcustomername&gt; --cage build | tee /tmp/builder_provision.out
-PYTHONUNBUFFERED=1 nucleator builder configure --customer
-&lt;yourcustomername&gt; --cage build | tee /tmp/builder_configure.out</p></div>
-<div class="paragraph"><p>Note that it can take some time for builder resources to be
-provisioned and become available. You can use the CloudFormation AWS
-console to see the current status and progress of provisioning while
-these commands are running.</p></div>
-<div class="paragraph"><p>Once complete the builder user interface can be accessed at</p></div>
-<div class="paragraph"><p>SUMMARY -------</p></div>
+<div class="paragraph"><p>Nucleator supports several Stacksets that can be created within a cage.  The Builder Stackset provides a user interface for creating additional Stacksets.  To do this run:</p></div>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>PYTHONUNBUFFERED=1 nucleator builder provision --customer &lt;yourcustomername&gt; --cage build | tee /tmp/builder_provision.out
+PYTHONUNBUFFERED=1 nucleator builder configure --customer &lt;yourcustomername&gt; --cage build | tee /tmp/builder_configure.out</tt></pre></div></div>
+<div class="paragraph"><p>Note that it can take some time for builder resources to be provisioned and
+become available. You can use the CloudFormation AWS console to see the
+current status and progress of provisioning while these commands are running.</p></div>
+<div class="paragraph"><p>Once complete the Nucleator user interface can be accessed at <span class="monospaced">https://nucleator-ui.&lt;cage&gt;.&lt;customer_domain&gt;</span>.  Initial login credentials are available in <span class="monospaced">~/.nucleator/&lt;customer&gt;-credential.yml</span>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary">SUMMARY</h2>
+<div class="sectionbody">
 <div class="paragraph"><p>You should now have a configured Cage and Builder Stackset. To provision other Stacksets such as Beanstalk or Redshift, see the documentation for those specific commands. You can also re-run step 12 with any Cage that has been configured in step 6 to provision more Cages.</p></div>
 </div>
 </div>
