@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+/* Layout Small Screens */
+
+.secondaryHeader {
+	height: 50px;
+}
+
+.secondaryHeader a.secondaryLogo {
+	width: 254px; height: 50px;
+	display: block;
+	background-image: url(../images/nucleatorLogoHorizontalSmall.png);
+}
+
+article { padding: 20px 20px 10px 20px;}
+
+.primaryNav {
+	display: block;
+	position: static;
+	padding: 10px 0px 10px 0px;
+	background-color: #666;
+}
+
+.primaryNav a {
+	color: #fff;
+	display: block;
+	margin: 15px;
+	padding: 9px;
+	border: 1px solid #ccc;
+	background: url(../images/mobile_arrow.png) no-repeat right center;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+}
+
+.primaryNav a:hover { color: #a4bee3; background-color: rgba(255,255,255,.15); }
+
+.secondaryNav {
+	display: block;
+	position: static;
+	padding: 10px 0px 10px 0px;
+	background-color: #8dc63f;
+}
+
+.secondaryNav a {
+	color: #fff;
+	display: block;
+	margin: 15px;
+	padding: 9px;
+	border: 1px solid #ccc;
+	background: url(../images/mobile_arrow.png) no-repeat right center;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+}
+
+.secondaryNav a:hover { color: #c4df9b; background-color: rgba(255,255,255,.15); }
+
+
+footer { border-top: 1px solid #a6abc5; }

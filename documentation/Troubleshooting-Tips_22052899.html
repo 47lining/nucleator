@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Troubleshooting Tips</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Troubleshooting Tips</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+Guidance on troubleshooting common issues that may arise when using Nucleator<strong><br /></strong>
+</div></div><p><strong><br /></strong></p><p><strong><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1426568760103 {padding: 0px;}
+div.rbtoc1426568760103 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1426568760103 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1426568760103'>
+<ul class='toc-indentation'>
+<li><a href='#TroubleshootingTips-UsingtheCloudFormationConsolewithNucleator'>Using the CloudFormation Console with Nucleator</a></li>
+<li><a href='#TroubleshootingTips-UsingNucleatorwithWindows'>Using Nucleator with Windows</a></li>
+<li><a href='#TroubleshootingTips-CageProvisionFailsDuetoIncorrectAvailabilityZone'>Cage Provision Fails Due to Incorrect Availability Zone</a></li>
+<li><a href='#TroubleshootingTips-UnabletoReachBastion'>Unable to Reach Bastion</a></li>
+<li><a href='#TroubleshootingTips-AWSServiceLimits'>AWS Service Limits</a></li>
+<li><a href='#TroubleshootingTips-LocalVirtualMachines,TimeandAWSAuthentication'>Local Virtual Machines, Time and AWS Authentication</a></li>
+</ul>
+</div></strong></p><h3 id="TroubleshootingTips-UsingtheCloudFormationConsolewithNucleator"><strong>Using the CloudFormation Console with Nucleator</strong></h3><p>Most Nucleator Stacksets execute one or more CloudFormation templates, which result in the creation of one or more CloudFormation stacks in AWS.  <a href="Using-the-CloudFormation-Console-with-Nucleator_22054144.html">This page documents tips for using the CloudFormation Console with Nucleator.</a></p><h3 id="TroubleshootingTips-UsingNucleatorwithWindows"><strong>Using Nucleator with Windows<br /></strong></h3><p>Nucleator runs on Unix-based systems.  If you would like to use it on a Windows machine, <a href="Windows-Tips_22054038.html">this page documents tips we have learned</a> for either running Virtual Box on Windows or accessing a Linux instance in AWS.</p><h3 id="TroubleshootingTips-CageProvisionFailsDuetoIncorrectAvailabilityZone"><strong>Cage Provision Fails Due to Incorrect Availability Zone</strong></h3><p>Due to an AWS API call issue on accounts that pre-date VPCs it is possible that the setup wizard may record incorrect availability zones (AZ) in the {customer}.yml siteconfig file.  If this occurs <em>nucleator cage provision</em> will fail.  Each AWS account uses a unique set of AZs for locating their resources and if the AZ definition in siteconfig is incorrect <em>nucleator cage provision </em>will fail on attempting to create your VPCs.  </p><p>To resolve, you will need to locate the correct AZs for your account on the AWS console and edit {customer}.yml which is located in the siteconfig directory which is where the setup wizard was run (typically the ansible/roles/siteconfig/vars directory of your cloned Git siteconfig repository).</p><ol><li><p>Locate your accounts valid AZs:  This can be done by going to the AWS console -&gt; VPCs -&gt; Subnets -&gt; Create Subnet -&gt; and grabbing at least the first two list items of the availability zone drop-down.   These will be the AZs for the region that your console is set to.  Please note both your AZs and the region that they represent and then cancel the create subnet dialog.</p><ol><li><p>You will need to repeat for each region in your {customer}-{cage}.yml file.  Change the region in the top right of the AWS console to grab the availability zones for the different regions and repeat the initial steps of creating a subnet, noting the region and AZs.</p></li></ol></li><li>Edit your {customer}.yml file (replacing customer with your customer name) and scroll to the section that matches the account name in question<ol><li>Ensure that the account number matches the account used in step #1 in collecting AZ information <br /><ol><li>AWS console -&gt; click on support in upper right -&gt; select support center -&gt; note the account number in the upper right</li><li>If the account number does not match move to the correct account within the {customer}.yml or rerun step #1 while logged into the account being used for Nucleator </li></ol></li><li>Below the account number is a section starting with map_region_plus_redundant_zone_number_to_vpc_valid_az</li><li>Review and compare the AZ1 and AZ2 (more if they are present) for each region header in this section and compare to the AZs noted in step #1</li><li>Change any AZ definition statements that do not match the information collected in step #1 to match the information captured from the console in step #1</li></ol></li></ol><p>If you care to read more about this issue additional information can be found at <a href="http://stackoverflow.com/questions/22744467/vpc-capable-availability-zones-in-amazon" class="external-link" rel="nofollow">http://stackoverflow.com/questions/22744467/vpc-capable-availability-zones-in-amazon</a>.  Don't forget to update your Git repository with the new versions of files.</p><h3 id="TroubleshootingTips-UnabletoReachBastion"><strong>Unable to Reach Bastion</strong></h3><p>If you ever see an error stating that Bastion cannot be reached, log into the AWS Management Console and navigate to EC2.  Identify the Bastion instance and Stop it.  Start it again.  Re-try your command.  Occurrences appear to be <em>very</em> rare.</p><p>Another reason Bastion might be unreachable is if the key file is no longer in your .nucleator directory.  Make sure the *.pem file is kept if you delete the .nucleator directory for any reason.</p><h3 id="TroubleshootingTips-AWSServiceLimits"><strong>AWS Service Limits</strong></h3><p>Be aware of <a href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html" class="external-link" rel="nofollow">AWS default service limits</a>.  It is very easy to exceed the default limits of 5 Elastic IPs, 5 VPCs per region, 20 Cloudformation stacks.  If you require higher limits, create an AWS support ticket using your Management Console.</p><h3 id="TroubleshootingTips-LocalVirtualMachines,TimeandAWSAuthentication"><strong>Local Virtual Machines, Time and AWS Authentication</strong></h3><p>It is common for local VMs (e.g. provided by Virtual Box) to have significant time drift.  If the VMs concept of time drifts far ahead or behind of Amazon's, AWS API requests will no longer properly authenticate and you will see a message like this:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">BotoServerError: Failed to obtain temporary credentials for role NucleatorAgent in target account 972598532625, message: &#39;BotoServerError: 403 Forbidden
+&lt;ErrorResponse xmlns=&quot;https://sts.amazonaws.com/doc/2011-06-15/&quot;&gt;
+  &lt;Error&gt;
+    &lt;Type&gt;Sender&lt;/Type&gt;
+    &lt;Code&gt;SignatureDoesNotMatch&lt;/Code&gt;
+    &lt;Message&gt;Signature expired: 20150219T155830Z is now earlier than 20150219T160112Z (20150219T161612Z - 15 min.)&lt;/Message&gt;
+  &lt;/Error&gt;
+  &lt;RequestId&gt;9f04f9d6-b852-11e4-875d-17a0cc0996dc&lt;/RequestId&gt;
+&lt;/ErrorResponse&gt;</pre>
+</div></div><p>To resolve this, sync the time on the VM:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: text; gutter: false" style="font-size:12px;">sudo ntpdate -s time.nist.gov</pre>
+</div></div><p> </p><p> </p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>

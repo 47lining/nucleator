@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Hardening your Nucleator Installation and Launching Nucleator&#39;s User Interface</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="How-to-Use-Nucleator_21463194.html">How to Use Nucleator</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Hardening your Nucleator Installation and Launching Nucleator&#39;s User Interface</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+Nucleator installs itself in a secure manner within the AWS Account that you specify within its own build Cage and builder Stackset, from which it provides a Jenkins-based User Interface that you can use as an alternative to the command line interface. Here's how to use the Nucleator command line interface to make it happen.
+</div></div>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">install Nucleator and its User Interface within AWS</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <ul class="inline-task-list" data-inline-tasks-content-id="21463253">
+<li data-inline-task-id="1"><span><a href="21463253.html">Create the <code>build</code> Cage</a> for your specified Customer</span></li>
+<li data-inline-task-id="2"><span><a href="21463253.html">Create the <code>builder</code> Stackset</a> for your specified Customer</span></li>
+<li data-inline-task-id="3"><span><a href="21463253.html">Access the resulting Nucleator User Interface</a></span></li>
+</ul>
+
+
+                    </div>
+    </div>
+<h2 id="HardeningyourNucleatorInstallationandLaunchingNucleator&#39;sUserInterface-buildProvisionandConfigureBuildCage"><span class="confluence-anchor-link" id="HardeningyourNucleatorInstallationandLaunchingNucleator&#39;sUserInterface-build"></span>Provision and Configure Build Cage</h2><p>Use Nucleator to create a <code>build</code> Cage for your specified initial Customer:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">nucleator cage provision --cage build --customer &lt;customer_name&gt;
+nucleator cage configure --cage build --customer &lt;customer_name&gt;</pre>
+</div></div><p>At this point you can look in the AWS Management Console and <span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">verify that EC2 instances exist in your account with host names <code>bastion.build.&lt;customer_domain&gt;</code> and <code>nat.build.&lt;customer_domain&gt;</code>.</span></span></p><h2 id="HardeningyourNucleatorInstallationandLaunchingNucleator&#39;sUserInterface-builderProvisionandConfigureBuilderStackset"><span class="confluence-anchor-link" id="HardeningyourNucleatorInstallationandLaunchingNucleator&#39;sUserInterface-builder"></span>Provision and Configure Builder Stackset</h2><p>Now you need Nucleator to provision a <code>builder</code> StackSet within your <code>build</code> Cage.  As part of the <code>builder</code> Stackset, Nucleator provisions and configures:</p><ol><li>an EC2 instance named <code>nucleator</code> that will be used to provision additional Cages and StackSets, launched with the IAM Instance Profile for the <code>NucleatorAgent</code> Role.  This allows the Nucleator instance to operate on AWS Accounts under Nucleator's management without needing to embed IAM user credentials on the instance.</li><li>a Nucleator User Interface instance with out-of-the-box Nucleator jobs defined that can be used to initiate the creation of additional Cages and Stacksets.  This instance is named <code>nucleator-ui.build.&lt;customer_domain&gt;</code>.</li><li>an Artifactory instance which provides a repository for deployable artifacts which comprise your applications, named <code>artifactory.build.&lt;customer_domain&gt;</code>.</li></ol><p>To initiate creation of the <code style="line-height: 1.4285715;">builder</code> Stackset in the <code style="line-height: 1.4285715;">build</code> Cage:</p><div class="code panel pdl" style="border-width: 1px;"><div class="codeContent panelContent pdl">
+<pre class="theme: RDark; brush: bash; gutter: false" style="font-size:12px;">nucleator builder provision --cage build --customer &lt;customer_name&gt;
+nucleator builder configure --cage build --customer &lt;customer_name&gt;</pre>
+</div></div><p><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">Verify that EC2 instances exist in your account with host prefixes <code>artifactory</code>, <code>nucleator-ui</code> and <code>nucleator</code>.</span></span></p><h3 id="HardeningyourNucleatorInstallationandLaunchingNucleator&#39;sUserInterface-ImportantNote:"><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">Important Note:</span></span></h3><p style="margin-left: 30.0px;"><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">Due to an AWS API call issue  on account that pre-date VPCs it is possible that the setup wizard may have recorded incorrect availability zones (AZ) in the {customer}.yml siteconfig file.  If this has occured Nucleator cage provision will fail in creating one or more VPC.  Example output for such a failure:</span></span></p><p style="margin-left: 60.0px;"><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);"> </span></span></p><blockquote><p style="margin-left: 90.0px;">TASK: [cage_provision | provision cage via cloudformation] ******************** <br />Thursday 12 March 2015 13:40:08 -0600 (0:00:00.001) 0:03:17.341 ********<br />*******************************************************************************<br />failed: [localhost] =&gt; {&quot;changed&quot;: true, &quot;events&quot;: [&quot;StackEvent AWS::CloudFormation::Stack cage-build-test5-acme CREATE_FAILED&quot;, &quot;StackEvent AWS::CloudFormation::Stack Vpc CREATE_FAILED&quot;, &quot;StackEvent AWS::CloudFormation::Stack Vpc CREATE_IN_PROGRESS&quot;, &quot;StackEvent AWS::CloudFormation::Stack Vpc CREATE_IN_PROGRESS&quot;, &quot;StackEvent AWS::CloudFormation::Stack cage-build-test5-acme CREATE_IN_PROGRESS&quot;], &quot;failed&quot;: true, &quot;output&quot;: &quot;Stack CREATE failed&quot;, &quot;stack_outputs&quot;: {}}</p><p style="margin-left: 90.0px;">FATAL: all hosts have already failed -- aborting</p><p style="margin-left: 90.0px;">PLAY RECAP ******************************************************************** <br />Thursday 12 March 2015 13:41:22 -0600 (0:01:14.905) 0:04:32.246 ********<br />*******************************************************************************<br /> to retry, use: --limit @/home/silver/cage_provision.retry<span style="color: rgb(0,0,0);"> </span></p><p style="margin-left: 90.0px;">localhost : ok=49 changed=10 unreachable=0 failed=1</p><p style="margin-left: 90.0px;">Script Execution Time: 272.57 Seconds<br />ERROR: Non-zero return code from playbook.<span style="color: rgb(0,0,0);"> </span></p><p style="margin-left: 90.0px;">captured stderr:</p><p style="margin-left: 90.0px;">exiting with return code 1...</p></blockquote><p style="margin-left: 60.0px;"><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);"><br /></span></span></p><p style="margin-left: 30.0px;"><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">If this occurs please reference <a href="https://confluence.47lining.com/display/NCD/Troubleshooting+Tips" rel="nofollow">troubleshooting tips</a> for methods for detection and resolution.</span></span></p><h2 id="HardeningyourNucleatorInstallationandLaunchingNucleator&#39;sUserInterface-nuiAccesstheNucleatorUserInterface"><span class="confluence-anchor-link" id="HardeningyourNucleatorInstallationandLaunchingNucleator&#39;sUserInterface-nui"></span>Access the Nucleator User Interface</h2><p>Once the <code>builder</code> Stackset has been provisioned and configured, you can access Nucleator's jenkins-based User Interface at https://nucleator-ui.build.&lt;customer_domain&gt;, for example: <a href="https://nucleator-ui.build.47lining.com" class="external-link" rel="nofollow">https://nucleator-ui.build.47lining.com</a></p><p> </p><hr /><p>Next: Now you are ready to create other Cages and Stacksets via Nucleator's jenkins-based UI.  See <a href="Using-the-Nucleator-User-Interface_21463255.html">Using the Nucleator User Interface</a>.  You can also continue <a href="Using-the-Nucleator-Command-Line-Interface_21464166.html">Using the Nucleator Command Line Interface</a> from its secure home within AWS.</p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>

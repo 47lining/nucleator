@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Checkout the Site Config</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="How-to-Use-Nucleator_21463194.html">How to Use Nucleator</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="Using-the-Nucleator-User-Interface_21463255.html">Using the Nucleator User Interface</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="Nucleator-Operations_21463259.html">Nucleator Operations</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Checkout the Site Config</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+Update the Nucleator User Interface's concept of the site configuration
+</div></div><p> </p><p>The Nucleator user interface enables operations on Cages and Stacksets which have been defined in the site configuration repository.  The &quot;out of the box&quot; operation of Nucleator assumes you have your site configuration maintained in a Git repository.  This location should be set early in the getting-started processed and is contained in the sources.yml file in your .nucleator directory.  The 'nucleator update' task also reads this sources.yml file and retrieves the data.</p><p>Similarly to the 'nucleator update', the &quot;CheckoutSiteConfig&quot; project updates the Nucleator User Interface's view.  When changes to the site configuration have been committed, this project should be run. The contents of those definitions is explained in<span style="color: rgb(0,0,0);"> </span><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">this page: </span><a href="Nucleator-Configuration-Process-Overview_20545625.html">Nucleator Configuration Process Overview</a><span style="color: rgb(0,0,0);">.</span></span></p><p><span style="color: rgb(255,0,0);"><span style="color: rgb(0,0,0);">N.B. at the moment, the Nucleator UI has no notion of what Cages and Stacksets have been provisioned.  The concept is that you can re-provision Cages and Stacksets multiple times.  The downside of this is creating a deployment target in a Cage which hasn't been configured.  The deployment doesn't fail since the Cage gets provisioned as a side effect, but the configure step isn't run which can lead to undesirable side effects.  Therefore, it is important to use the &quot;Provision and Configure Cage&quot; and &quot;Create Beanstalk Container&quot; projects.</span></span></p><hr /><p>Next: <a href="Nucleator-Update_21464364.html">Nucleator Update</a></p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>
