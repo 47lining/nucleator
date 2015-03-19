@@ -118,9 +118,9 @@ http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
 <pre><tt># (If your python installation does not require root access to install, remove "sudo" from the next two commands)
 
-cd /tmp &amp;&amp; git clone --recursive --depth 1 -b nucleator_distribution https://github.com/47lining/ansible.git &amp;&amp; cd ansible &amp;&amp; sudo python setup.py install
+cd /tmp &amp;&amp; git clone --recursive --depth 1 -b nucleator_distribution git://github.com/47lining/ansible.git &amp;&amp; cd ansible &amp;&amp; sudo python setup.py install
 
-sudo pip install --upgrade git+ssh://github.com/47lining/nucleator-core.git
+sudo pip install --upgrade git+git://github.com/47lining/nucleator-core.git
 
 nucleator init</tt></pre></div></div>
 </div>
