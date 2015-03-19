@@ -60,16 +60,16 @@
         <div class="panel" style="border-width: 1px;"><div class="panelContent">
 You create a Nucleator Stackset by cloning an existing Stackset, or Nucleator's Stackset Template, into your own public or private git repository.
 </div></div><p><style type='text/css'>/*<![CDATA[*/
-div.rbtoc1426568759720 {padding: 0px;}
-div.rbtoc1426568759720 ul {list-style: disc;margin-left: 0px;}
-div.rbtoc1426568759720 li {margin-left: 0px;padding-left: 0px;}
+div.rbtoc1426743017235 {padding: 0px;}
+div.rbtoc1426743017235 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1426743017235 li {margin-left: 0px;padding-left: 0px;}
 
-/*]]>*/</style><div class='toc-macro rbtoc1426568759720'>
+/*]]>*/</style><div class='toc-macro rbtoc1426743017235'>
 <ul class='toc-indentation'>
 <li><a href='#CreatingPrivateorPublicStacksets-CreateagitRepositoryforYourStackset'>Create a git Repository for Your Stackset</a></li>
 <li><a href='#CreatingPrivateorPublicStacksets-ModifyinganExistingStackset'>Modifying an Existing Stackset</a></li>
 </ul>
-</div></p><h1 id="CreatingPrivateorPublicStacksets-CreateagitRepositoryforYourStackset">Create a git Repository for Your Stackset</h1><p>The most common method of creating a new Stackset is to create a new public or private Git repository to manage your new Stackset. When the repository is ready for use, you can add an entry to your .nucleator/sources.yml file pointing to the new Stackset, then run &quot;nucleator update&quot; to pull the Stackset into your .nucleator/contrib directory making available to your Nucleator installation.</p><p>Note that the .nucleator/sources.yml file follows the conventions and capabilities supported by ansible-galaxy, so it also possible to use other source control tools like BitBucket if you prefer. See the <a class="external-link" href="http://docs.ansible.com/galaxy.html#installing-roles" rel="nofollow">Ansible Galaxy documentation</a> for more details on the different ways that you can reference resources.</p><h1 id="CreatingPrivateorPublicStacksets-ModifyinganExistingStackset">Modifying an Existing Stackset</h1><p>If you want to modify an existing publicly available Nucleator Stackset, best practice is to fork the existing stackset into your own GitHub or Stash account. You can then make localized changes and update your .nucleator/sources.yml to point to your modified Stackset repository to use it after running &quot;nucleator update.&quot;</p><p> </p><hr /><p>Next: <a href="21464195.html">What's in a Stackset?</a></p><p> </p>
+</div></p><h1 id="CreatingPrivateorPublicStacksets-CreateagitRepositoryforYourStackset">Create a git Repository for Your Stackset</h1><p>The most common method of creating a new Stackset is to create a new public or private Git repository to manage your new Stackset. When the repository is ready for use, you can add an entry to your <code>.nucleator/sources.yml</code> file pointing to the new Stackset, then run <code>nucleator update</code> to pull the Stackset into your <code>.nucleator/contrib</code> directory making it available to your Nucleator installation.</p><p>Note that the <code>.nucleator/sources.yml</code> file follows the conventions and capabilities supported by <code>ansible-galaxy</code>, so it also possible to use other source control tools like BitBucket if you prefer. See the <a class="external-link" href="http://docs.ansible.com/galaxy.html#installing-roles" rel="nofollow">Ansible Galaxy documentation</a> for more details on the different ways that you can reference resources.</p><h1 id="CreatingPrivateorPublicStacksets-ModifyinganExistingStackset">Modifying an Existing Stackset</h1><p>If you want to modify an existing publicly available Nucleator Stackset, best practice is to fork the existing stackset into your own GitHub or Stash account. You can then make localized changes and update your <code>.nucleator/sources.yml</code> to point to your modified Stackset repository to use it after running <code>nucleator update.</code></p><p> </p><hr /><p>Next: <a href="21464195.html">What's in a Stackset?</a></p><p> </p>
       </article>
       <div class="clear-fix"></div>
       <div class="secondaryNav">
