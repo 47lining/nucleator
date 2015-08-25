@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Nucleator: Nucleator Operations</title>
+    <title>Nucleator: Retrieving a Remote Ssh Config</title>
     <link rel="stylesheet" href="../css/site.css" type="text/css" />
     <link rel="stylesheet" href="../css/tips.css" type="text/css" />
     <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
@@ -54,12 +54,15 @@
 	    	    <li>
 	      <span><a href="Using-the-Nucleator-User-Interface_21463255.html">Using the Nucleator User Interface</a></span>
 	    </li>
+	    	    <li>
+	      <span><a href="Nucleator-Operations_21463259.html">Nucleator Operations</a></span>
+	    </li>
 	              </ol>
         </div>
-        <h1>Nucleator Operations</h1>
-        <div class="panel" style="border-width: 1px;"><div class="panelContent">
-Some Nucleator User Interface projects operate on Nucleator as a whole
-</div></div><p> </p><p><ul class='childpages-macro'><li><a href="Checkout-the-Site-Config_21464358.html">Checkout the Site Config</a> &mdash; <span class="smalltext">Update the Nucleator User Interface's concept of the site configuration</span></li><li><a href="Nucleator-Update_21464364.html">Nucleator Update</a> &mdash; <span class="smalltext">This project updates the Nucleator code on the nucleator machine</span></li><li><a href="Provision-Roles_21464367.html">Provision Roles</a> &mdash; <span class="smalltext">If a new account is added, the roles need to be provisioned in that account.</span></li><li><a href="Retrieving-a-Remote-Ssh-Config_22054670.html">Retrieving a Remote Ssh Config</a> &mdash; <span class="smalltext">Retrieve a remotely created ssh config file</span></li><li><a href="Validate-Rolespec_21464369.html">Validate Rolespec</a> &mdash; <span class="smalltext">Validate that the Nucleator roles have been provisioned for an account</span></li></ul></p>
+        <h1>Retrieving a Remote Ssh Config</h1>
+        <p><span style="color: rgb(255,0,0);"> </span></p><div class="panel" style="border-width: 1px;"><div class="panelContent">
+Retrieve a remotely created ssh config file
+</div></div><p>If you use the NUI to configure a new cage, the nucleator machine instance creates a new config file for ssh on that instance.  If you want to ssh to one of those machines (bastion or nat), you will need the ssh configuration on your local machine.  This NUI project enables you to retrieve the config file into the workspace of the project and then download to your machine.</p><p>Step 1 - Run the project, select the cage for which you want the ssh config file:</p><p><img class="confluence-embedded-image" src="attachments/22054670/22282498.jpg" data-image-src="attachments/22054670/22282498.jpg"></p><p>Step 2 - Download the file from the workspace:</p><p><img class="confluence-embedded-image" src="attachments/22054670/22282501.jpg" data-image-src="attachments/22054670/22282501.jpg"></p><p> </p>
       </article>
       <div class="clear-fix"></div>
       <div class="secondaryNav">
