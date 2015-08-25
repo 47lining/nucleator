@@ -246,36 +246,42 @@ During the creation of the user, generate an Access Key for the user and be
 </li>
 <li>
 <p>
-Add a User Policy to NucleatorUser by expanding the "Inline Policies" section
-   of the user description screen.  Select a custom policy and copy and paste
-   the policy listed below; name the policy <span class="monospaced">NucleatorUserPolicy</span> and apply it.
+Create a new group called NucleatorBootstrapGroup.
+</p>
+</li>
+<li>
+<p>
+Add a User Policy to NucleatorBootstrapGroup by expanding the "Inline Policies" section
+   of the group description screen.  Select a custom policy and copy and paste
+   the policy listed below; name the policy <span class="monospaced">NucleatorGroupPolicy</span> and apply it.
 </p>
 <div class="listingblock">
 <div class="content"><!-- Generator: GNU source-highlight 3.1.6
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
-<pre><tt>{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "NucleatorUserMinimalAccess",
-            "Effect": "Allow",
-            "Action": [
-                "iam:CreateRole",
-                "iam:DeleteRolePolicy",
-                "iam:GetRole",
-                "iam:GetRolePolicy",
-                "iam:ListRolePolicies",
-                "iam:PutRolePolicy",
-                "iam:UpdateAssumeRolePolicy",
-                "ec2:DescribeRegions",
-                "ec2:DescribeAvailabilityZones"
-            ],
-            "Resource": "*"
-        }
-    ]
-}</tt></pre></div></div>
+<pre><tt>    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "NucleatorUserMinimalAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:CreateRole",
+                    "iam:DeleteRolePolicy",
+                    "iam:GetRole",
+                    "iam:GetRolePolicy",
+                    "iam:ListRolePolicies",
+                    "iam:PutRolePolicy",
+                    "iam:UpdateAssumeRolePolicy",
+                    "ec2:DescribeRegions",
+                    "ec2:DescribeAvailabilityZones"
+                ],
+                "Resource": "*"
+            }
+        ]
+    }
+d. Add NucleatorUser to NucleatorBootstrapGroup by clicking the Add Users to Group button from the group description screen. Select NucleatorUser and click Add Users.</tt></pre></div></div>
 </li>
 </ol></div>
 </div>
