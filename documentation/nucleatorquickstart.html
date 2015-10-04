@@ -128,7 +128,7 @@ nucleator init</tt></pre></div></div>
 <div class="sect1">
 <h2 id="_step_2_fork_the_public_nucleator_core_siteconfig_github_repository">STEP 2 - FORK THE PUBLIC nucleator-core-siteconfig GITHUB REPOSITORY</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>For your first use of Nucleator, this quickstart recommends that you use a public siteconfig.  Once you&#8217;ve seen how Nucleator Cages and Stacksets work, you can create a private siteconfig repository and provide Nucleator with a distribution key to access it.  (For more information on setting up a github account see <a href="https://help.github.com/articles/set-up-git/">https://help.github.com/articles/set-up-git/</a> )</p></div>
+<div class="paragraph"><p>For your first use of Nucleator, this quickstart recommends that you use a public siteconfig.  Once you&#8217;ve seen how Nucleator Cages and Stacksets work, you can create a private siteconfig repository and provide Nucleator with a distribution key to access it.  (For more information on setting up a github account see <span class="monospaced">https://help.github.com/articles/set-up-git/</span> )</p></div>
 <div class="olist loweralpha"><ol class="loweralpha">
 <li>
 <p>
@@ -404,7 +404,46 @@ details on this issue and how to address it.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_7_commit_your_siteconfig_updates">STEP 7 - COMMIT YOUR SITECONFIG UPDATES</h2>
+<h2 id="_step_7_generate_and_provide_cage_specific_self_signed_ssl_certificates">STEP 7 - GENERATE AND PROVIDE CAGE-SPECIFIC SELF-SIGNED SSL CERTIFICATES</h2>
+<div class="sectionbody">
+<div class="olist loweralpha"><ol class="loweralpha">
+<li>
+<p>
+decide on a password to use to protect the private keys and certificates
+   that you will generate in the steps below.  Enter this password as the
+   value for the <span class="monospaced">pkcs12_bundle_password</span> key in your customer credentials
+   file at <span class="monospaced">~/.nucleator/&lt;customer&gt;-credentials.yml</span>
+</p>
+</li>
+<li>
+<p>
+In your local clone of your personal fork of <span class="monospaced">nucleator-core-siteconfig</span>,
+   navigate to directory <span class="monospaced">ansible/roles/siteconfig/vars/</span>.
+</p>
+</li>
+<li>
+<p>
+Run the following command by filling in the variables:
+</p>
+<div class="listingblock">
+<div class="content"><!-- Generator: GNU source-highlight 3.1.6
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt>./make-certificate-bundle &lt;customer_name&gt; &lt;cage_name&gt; &lt;customer_domain&gt; &lt;pkcs12_bundle_password&gt;</tt></pre></div></div>
+</li>
+<li>
+<p>
+Repeat for all cages.  Use the customer_name, customer_domain and each
+   cage_name that you specified during STEP 6.  Use the
+   pkcs12_bundle_password that you specified in STEP 7.a.
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_8_commit_your_siteconfig_updates">STEP 8 - COMMIT YOUR SITECONFIG UPDATES</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Whenever siteconfig files are generated and/or updated, you must
 commit them to your github repository so that Nucleator will be able
@@ -429,7 +468,7 @@ git push</tt></pre></div></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_8_nucleator_update">STEP 8 - NUCLEATOR UPDATE</h2>
+<h2 id="_step_9_nucleator_update">STEP 9 - NUCLEATOR UPDATE</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Do this:</p></div>
 <div class="listingblock">
@@ -459,7 +498,7 @@ you modify a Stackset without changing the Stackset version, and you want Nuclea
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_9_provision_nucleator_roles_in_your_account">STEP 9 - PROVISION NUCLEATOR ROLES IN YOUR ACCOUNT</h2>
+<h2 id="_step_10_provision_nucleator_roles_in_your_account">STEP 10 - PROVISION NUCLEATOR ROLES IN YOUR ACCOUNT</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Nucleator needs to establish some attributes in your account like iam roles in order to execute correctly.  To do this run:</p></div>
 <div class="listingblock">
@@ -474,7 +513,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_10_account_setup">STEP 10 - ACCOUNT SETUP</h2>
+<h2 id="_step_11_account_setup">STEP 11 - ACCOUNT SETUP</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Next Nucleator needs to set up specific account resources for proper operation such as creating s3 buckets.  To do this run:</p></div>
 <div class="listingblock">
@@ -486,7 +525,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_11_dns_setup">STEP 11 - DNS SETUP</h2>
+<h2 id="_step_12_dns_setup">STEP 12 - DNS SETUP</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>More detailed instructions on DNS set-up are in the User&#8217;s Guide section entitled <a href="Prepare-AWS-Account---Set-Up-DNS-for-Cages-Defined-within-your-Account_22053669.html">Prepare AWS Account - Set Up DNS for Cages Defined within your Account</a> You will need an externally resolvable Subdomain to which you have authority to add Nameserver records.</p></div>
 <div class="paragraph"><p>For each Cage that you have defined for your Customer:</p></div>
@@ -529,7 +568,7 @@ http://www.gnu.org/software/src-highlite -->
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_12_provision_and_configure_cage">STEP 12 - PROVISION AND CONFIGURE CAGE</h2>
+<h2 id="_step_13_provision_and_configure_cage">STEP 13 - PROVISION AND CONFIGURE CAGE</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>You can now provision and configure your first Nucleator Cage:</p></div>
 <div class="listingblock">
@@ -545,7 +584,7 @@ current status and progress of provisioning while these commands are running.</p
 </div>
 </div>
 <div class="sect1">
-<h2 id="_step_13_create_a_builder_stackset">STEP 13 - CREATE A BUILDER STACKSET</h2>
+<h2 id="_step_14_create_a_builder_stackset">STEP 14 - CREATE A BUILDER STACKSET</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Nucleator supports several Stacksets that can be created within a cage.  The Builder Stackset provides a user interface for creating additional Stacksets.  To do this run:</p></div>
 <div class="listingblock">
