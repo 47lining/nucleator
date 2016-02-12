@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 8.6.9">
+<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+<meta name="Author" content="47Lining LLC">
+<meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+<meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+<title>Nucleator: nucleator-bakery(1)</title>
+
+<link rel="stylesheet" href="../site/css/cli.css" type="text/css">
+
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+
+
+
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+</head>
+<body class="manpage">
+
+    <div class="page">
+      <div class="secondaryHeader">
+        <a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+                    <li>
+              <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+            </li>
+                      </ol>
+        </div>
+        <h1> Nucleator CLI Reference </h1>
+
+
+<div id="header">
+<h1>
+nucleator-bakery(1) Manual Page
+</h1>
+<h2>NAME</h2>
+<div class="sectionbody">
+<p>nucleator-bakery -
+   Provision, Configure and Publish Operations on EC2 Amazon Machine Images
+</p>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_synopsis">SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="verseblock">
+<pre class="content"><em>nucleator bakery provision</em> &lt;args&gt; [options]
+<em>nucleator bakery configure</em> &lt;args&gt; [options]
+<em>nucleator bakery publish</em> &lt;args&gt; [options]
+<em>nucleator bakery delete</em> &lt;args&gt; [options]</pre>
+<div class="attribution">
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The <span class="monospaced">bakery</span> command and its subcommands are used to create and publish
+Amazon Machine Images.</p></div>
+<div class="paragraph"><p>Running <span class="monospaced">nucleator bakery provision</span> and <span class="monospaced">nucleator bakery
+configure</span> multiple times is safe, because provisioning and
+configuration operations are idempotent. If no changes have been made
+to the stackset definition in <span class="monospaced">~/.nucleator/contrib/bakery</span>, these
+commands will result in no change.  If updates were made to to the
+Stackset definition (via <span class="monospaced">nucleator update</span>, for example) that are
+consistent with CloudFormation&#8217;s "update in place" capabilities, the
+stackset will be updated in place so that AWS resources are brought
+into alignment with the new stackset definition.  This can be useful,
+for example, when modifying security groups to support application
+communication on various ports that the app may require.</p></div>
+<div class="paragraph"><p>The <span class="monospaced">bakery</span> command provides the ability to easily create an EC2 instance
+from an Amazon Machine Image (AMI), make the instance available for further
+configuration and then create (bake) a new AMI based on that instance
+via the Nucleator CLI.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_subcommands">SUBCOMMANDS</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_bakery_provision">BAKERY PROVISION</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator bakery provision</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --group &lt;bakery_ansible_role&gt;
+        [--cage &lt;cage_name&gt;]
+        [--ami-id &lt;id&gt;
+        [--ami-name &lt;name&gt;]
+        [--name &lt;instance_name&gt;]
+        [--keypair-name &lt;keypair_name&gt;]
+</p>
+<div class="paragraph"><p><span class="monospaced">nucleator bakery provision</span> creates an AWS EC2 instance in the specified
+cage for the specified customer.  Either an ID or a name must be provided
+for the source AMI from which the EC2 instance will be launched.  One of
+the two options must be provided.  If you expect to login to the instance,
+you should provide a keypair name.  If you don&#8217;t specify a cage name, it
+will use the <em>build</em> cage.  If you don&#8217;t specify a name for the instance,
+it will use <em>singleton</em>.</p></div>
+<div class="paragraph"><p>The <em>group</em> option lets you specify a set of Ansible roles which will be
+used during the provisioning, configuring and published steps.  These roles
+will go by the names "&lt;group&gt;_provision", "&lt;group&gt;_configure",
+"&lt;group&gt;_publish", "&lt;group&gt;_templates".  Examples of these are provided for
+both Linux and Windows instances in <a href="https://github.com/47lining/nucleator-core-bakery/tree/rc-1.0.3/samples">this GitHub repo</a>.  Those roles should be copied into your Nucleator installation
+directory:  <span class="monospaced">~/.nucleator/contrib/bakery-roles/ansible/roles/example_linux_provision</span>
+for example.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_bakery_configure">BAKERY CONFIGURE</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator bakery configure</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --group &lt;bakery_ansible_role&gt;
+        [--cage &lt;cage_name&gt;]
+        [--name &lt;bakery_instance_name&gt;]
+        [-h | --help]
+</p>
+<div class="paragraph"><p><span class="monospaced">nucleator bakery configure</span> performs post-provisioning configuration of
+the EC2 instance associated with the bakery.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_bakery_publish">BAKERY PUBLISH</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator bakery publish</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --group &lt;bakery_ansible_role&gt;
+        --ami-name &lt;ami__name&gt;
+        [--cage &lt;cage_name&gt;]
+        [--name &lt;bakery_instance_name&gt;]
+        [--ami-region &lt;region&gt;]
+</p>
+<div class="paragraph"><p><span class="monospaced">nucleator bakery publish</span> creates the AMI from the named EC2 instance.  The ami-name is
+applied to that AMI which is published into the specified region.  If no region is
+specified, it will go into the same region as where the EC2 instance is running.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_bakery_delete">BAKERY DELETE</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator bakery delete</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --group &lt;bakery_ansible_role&gt;
+        --cage &lt;cage_name&gt;
+        --name &lt;bakery_instance_name&gt;
+</p>
+<div class="paragraph"><p><span class="monospaced">nucleator bakery delete</span> deletes the bakery instance specified by &lt;bakery_application_name&gt; from the
+specified Nucleator cage.</p></div>
+</dd>
+</dl></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options">OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+--customer &lt;customer_name&gt;
+</dt>
+<dd>
+<p>
+        The name of the customer for whom the specified cage was provisioned.
+</p>
+</dd>
+<dt class="hdlist1">
+--cage &lt;cage_name&gt;
+</dt>
+<dd>
+<p>
+        The name of the cage in which to provision and maintain the bakery. When
+        this option is not required, the default is <em>build</em>.
+</p>
+</dd>
+<dt class="hdlist1">
+--group &lt;group_name&gt;
+</dt>
+<dd>
+<p>
+        The name of a set if Ansible roles which will be used to provide custom
+        provisioning and configuration. These roles, written by the customer,
+        will go by the names "&lt;group&gt;_provision", "&lt;group&gt;_configure",
+        "&lt;group&gt;_publish", "&lt;group&gt;_templates".  Examples of these are provided for
+        both Linux and Windows instances in <a href="https://github.com/47lining/nucleator-core-bakery/tree/rc-1.0.3/samples">this GitHub repo</a>.  Those roles should be copied into your Nucleator installation
+        directory:  <span class="monospaced">~/.nucleator/contrib/bakery-roles/ansible/roles/example_linux_provision</span>
+        for example.
+</p>
+</dd>
+<dt class="hdlist1">
+--ami-id &lt;id&gt;
+</dt>
+<dd>
+<p>
+        The ID of an Amazon Machine Image (AMI) which will be the source of the EC2 instance
+        which will be launched.  This AMI needs to reside in the region of the cage which
+        you have specified.  When this option is not required, it means that Nucelator will
+        look for an AMI with the name specified by the next option, "ami-name".
+</p>
+</dd>
+<dt class="hdlist1">
+--ami-name &lt;name&gt;
+</dt>
+<dd>
+<p>
+        The name of an Amazon Machine Image (AMI) which will be the source of the EC2 instance
+        which will be launched.  This AMI needs to reside in the region of the cage which
+        you have specified.  When this option is not required, it means that Nucelator will
+        look for an AMI with the ID specified by the previous option, "ami-id".  For the <span class="monospaced">publish</span>
+        command, this value will be assigned to the resultant AMI.
+</p>
+</dd>
+<dt class="hdlist1">
+--name &lt;instance_name&gt;
+</dt>
+<dd>
+<p>
+        The "instance_name" value will be assigned to the launched EC2 instance.  If this option is
+        not specified, a default value of <em>singleton</em> is used.
+</p>
+</dd>
+<dt class="hdlist1">
+--keypair-name &lt;keypair_name&gt;
+</dt>
+<dd>
+<p>
+        If you will need to login to the launched EC2 instance, the keypair should be specified
+        so that it can be associated with the EC2 instance at launch time.
+</p>
+</dd>
+<dt class="hdlist1">
+--ami-region &lt;region_name&gt;
+</dt>
+<dd>
+<p>
+        The publish command will place the resulting AMI in the specified region.  If not specified,
+        the AMI will be published in the region where the EC2 instance is running.
+</p>
+</dd>
+<dt class="hdlist1">
+-h
+</dt>
+<dt class="hdlist1">
+--help
+</dt>
+<dd>
+<p>
+        Show help for this command.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="FILES">FILES</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+NUCLEATOR_INSTALL_DIR/nucleator-core/lib/nucleator/core/foundation/ansible/roles/config/vars/aws_service_config.yml
+</dt>
+<dd>
+<p>
+        AWS Services config file including dicts for currently supported EC2 and
+        RDS instance types.
+</p>
+</dd>
+<dt class="hdlist1">
+~/.nucleator/contrib/bakery/ansible/roles/bakery_provision/defaults/main.yml
+</dt>
+<dd>
+<p>
+        Default values for optional arguments to the <span class="monospaced">bakery</span> command.
+</p>
+</dd>
+<dt class="hdlist1">
+~/.nucleator/contrib/bakery-roles/ansible/roles
+</dt>
+<dd>
+<p>
+        The customer-provided Ansible roles should be placed in this directory.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nucleator">NUCLEATOR</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Part of the <a href="nucleator.html">nucleator(1)</a> suite</p></div>
+</div>
+</div>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+        <a href="../installation.html">Installation</a>
+        <a href="index.html">Documentation</a>
+        <a href="../releases.html">Releases</a>
+        <a href="../license.html">License</a>
+        <a href="../community.html">Community</a>
+      </div>
+      <footer>
+        &copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>
+</body>
+</html>
