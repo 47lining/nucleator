@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nucleator: Provide SSL Certificates for Your Defined Customers and Cages</title>
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" href="../css/tips.css" type="text/css" />
+    <link rel="stylesheet" href="../css/syntaxhighlighter.css" type="text/css" />
+    <link rel="stylesheet" href="../css/sh-theme-rdark.css" type="text/css" />
+    <script type="text/javascript" src="../css/syntaxhighlighter.js" ></script>
+    <script type="text/javascript" src="../css/syntaxhighlighter-brushes.js" ></script>
+    <script type="text/javascript">
+      SyntaxHighlighter.all()
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="Author" content="47Lining LLC">
+    <meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+    <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+    <!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <div class="secondaryHeader">
+	<a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+	    	    <li>
+	      <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="20545561.html">User&#39;s Guide</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="How-to-Use-Nucleator_21463194.html">How to Use Nucleator</a></span>
+	    </li>
+	    	    <li>
+	      <span><a href="Installing-and-Configuring-Nucleator_21463207.html">Installing and Configuring Nucleator</a></span>
+	    </li>
+	              </ol>
+        </div>
+        <h1>Provide SSL Certificates for Your Defined Customers and Cages</h1>
+        <div class="panel" style="border-width: 1px;"><div class="panelContent">
+<span><span>How to provide SSL certificates for use by the nucleator builder stackset or other stacksets that require them</span>.</span>
+</div></div><p> </p><p><style type='text/css'>/*<![CDATA[*/
+div.rbtoc1444001691505 {padding: 0px;}
+div.rbtoc1444001691505 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1444001691505 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='toc-macro rbtoc1444001691505'>
+<ul class='toc-indentation'>
+<li><a href='#ProvideSSLCertificatesforYourDefinedCustomersandCages-ProvidingSSLCertificatestoNucleatorStacksets'>Providing SSL Certificates to Nucleator Stacksets</a></li>
+<li><a href='#ProvideSSLCertificatesforYourDefinedCustomersandCages-Add,commitandpushconfigurationchangestoyourpersonalsiteconfigrepository'>Add, commit and push configuration changes to your personal siteconfig repository</a></li>
+<li><a href='#ProvideSSLCertificatesforYourDefinedCustomersandCages-Summary'>Summary</a></li>
+</ul>
+</div></p><h2 id="ProvideSSLCertificatesforYourDefinedCustomersandCages-ProvidingSSLCertificatestoNucleatorStacksets">Providing SSL Certificates to Nucleator Stacksets</h2><p>Certain stacksets (for example, <code>nucleator-core-builder</code>) require SSL Certificates to validate that the server with which clients are communicating is authentic and to provide for encryption of the <code>https://</code> communication link.</p><p>Because certificates are strongly related to your nucleator siteconfig, SSL Certificates are provided to nucleator stacksets within your customized siteconfig repository.  You can provide certificates that you have generated and signed yourself, or certificates that you have procured that have been signed by a trusted Certificate Authority (CA).</p><p>Nucleator's <code>builder</code> stackset expects certificates to be present in your siteconfig in a pkcs12-formatted certificate bundle that includes the signed server certificate, the private key used to generate the certificate, and a certificate bundle provided by your chosen CA to establish chain-of-trust (if required).</p><p>Nucleator provides a utility script, <a href="https://github.com/47lining/nucleator-core-siteconfig/blob/master/ansible/roles/siteconfig/vars/make-certificate-bundle" class="external-link" rel="nofollow"><code>make_certificate_bundle</code> </a>, that can be used to generate a self-signed wildcard certificate for a specified cage, and package the results into the required pkcs12-format certificate bundle.  Instructions to find and use the utility are included in this <code><a href="https://github.com/47lining/nucleator-core-builder/blob/master/ansible/roles/jenkins/README-ssl.md" class="external-link" rel="nofollow">README-ssl.md</a></code> markdown document.</p><p>You can generate and provide a pkcs12-format bundle that includes certificates signed by your certificate authority using the same steps taken within the <a href="https://github.com/47lining/nucleator-core-siteconfig/blob/master/ansible/roles/siteconfig/vars/make-certificate-bundle" class="external-link" rel="nofollow"><code>make_certificate_bundle</code> </a>utility script.</p><h2 id="ProvideSSLCertificatesforYourDefinedCustomersandCages-Add,commitandpushconfigurationchangestoyourpersonalsiteconfigrepository">Add, commit and push configuration changes to your personal siteconfig repository</h2><p>After generating your certificate bundles, you'll need to add and commit them to your personal siteconfig git repository:</p><div><div class="syntaxhighlighter nogutter  bash"><p> </p><div class="table-wrap"><table class="confluenceTable"><tbody><tr><td class="confluenceTd"><div class="container" title="Hint: double-click to select code"><div class="line number1 index0 alt2"><code class="bash plain">git add --all :/</code></div><div class="line number2 index1 alt1"><code class="bash plain">git commit -m </code><code class="bash string">&quot;added SSL certificate bundles&quot;</code></div><div class="line number3 index2 alt2"><code class="bash plain">git push</code></div></div></td></tr></tbody></table></div><p> </p></div></div><p>In the subsequent steps, Nucleator will clone the repository that you have specified to access your current configuration, so it is important that you have comitted and pushed your changes.</p><h2 id="ProvideSSLCertificatesforYourDefinedCustomersandCages-Summary">Summary</h2><p>Use the <a href="https://github.com/47lining/nucleator-core-siteconfig/blob/master/ansible/roles/siteconfig/vars/make-certificate-bundle" class="external-link" rel="nofollow"><code>make_certificate_bundle</code> </a>script to generate a self-signed certificate and package it together with its private key into a .pkcs12-format certificate bundle for each of your nucleator cages where you will deploy Stacksets that require SSL certificates (including the `build` cage, where the `builder` stackset deploys).<span style="line-height: 1.42857;">  If you have procured certificates from a Certificate Authority, use steps similar to those in the <a href="https://github.com/47lining/nucleator-core-siteconfig/blob/master/ansible/roles/siteconfig/vars/make-certificate-bundle" class="external-link" rel="nofollow"><code>make_certificate_bundle</code> </a>script to generate the certificate bundle.  Commit each of these bundles to your personal siteconfig repository.</span></p><p><span style="line-height: 1.42857;"><br /></span></p>    <div class="aui-message success shadowed information-macro">
+                    <p class="title">Generate SSL Certificate Bundles</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <p><strong style="line-height: 1.42857;"><br /></strong></p><p><strong style="line-height: 1.42857;"><code>cd &lt;personal_siteconfig_clone&gt;/ansible/roles/siteconfig/vars</code></strong></p><p><strong><code>make_certificate_bundle &lt;customer&gt; &lt;cage&gt; &lt;customer_domain&gt;</code><code> &lt;pkcs12_password&gt;</code></strong><code><br /># repeat above for each Cage that requires an SSL Certificate</code></p><div class="line number1 index0 alt2"><strong><br /></strong></div><div class="line number1 index0 alt2"><strong><code class="bash plain">git add --all :/</code></strong></div><div class="line number2 index1 alt1"><strong><br /></strong></div><div class="line number2 index1 alt1"><strong><code class="bash plain">git commit -m </code><code class="bash string">&quot;added SSL certificate bundles&quot;</code></strong></div><div class="line number3 index2 alt2"><strong><br /></strong></div><div class="line number3 index2 alt2"><strong><code class="bash plain">git push</code></strong></div>
+                    </div>
+    </div>
+<p> </p><p><span><span>Next: <a href="Update-Chosen-Stacksets_22054084.html">Update Chosen Stacksets</a><br /></span></span></p>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+	<a href="../installation.html">Installation</a>
+	<a href="index.html">Documentation</a>
+	<a href="../releases.html">Releases</a>
+	<a href="../license.html">License</a>
+	<a href="../community.html">Community</a>
+      </div>
+      <footer>
+	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>   </body>
+</html>
