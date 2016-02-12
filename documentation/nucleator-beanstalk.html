@@ -11,7 +11,7 @@
 <meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
 <title>Nucleator: nucleator-beanstalk(1)</title>
 
-<link rel="stylesheet" href="../css/cli.css" type="text/css">
+<link rel="stylesheet" href="../site/css/cli.css" type="text/css">
 
     <link rel="stylesheet" href="../css/site.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
@@ -110,14 +110,18 @@ via the Nucleator CLI.</p></div>
         --cage &lt;cage_name&gt;
         --app_name &lt;beanstalk_application_name&gt;
         --type &lt;application_type&gt;
-        [--beanstalk_instance_type &lt;ec2_instance_type&gt;]
-        [--database_instance_type &lt;rds_instance_type&gt;]
-        [--database_name &lt;database_name&gt;]
-        [--database_user &lt;database_user&gt;]
-        [--database_password &lt;database_password&gt;]
+        [--tier &lt;tier_type&gt;]
+        [--beanstalk-instance-type &lt;ec2_instance_type&gt;]
+        [--database-instance-type &lt;rds_instance_type&gt;]
+        [--database-name &lt;database_name&gt;]
+        [--database-user &lt;database_user&gt;]
+        [--database-password &lt;database_password&gt;]
         [--minscale &lt;min_value&gt;]
         [--maxscale &lt;max_value&gt;]
-        [--service_role &lt;iam_role_name&gt;]
+        [--service-role &lt;iam_role_name&gt;]
+        [--queue-url &lt;url&gt;]
+        [--inactivity-timeout &lt;timeout_value&gt;]
+        [--visibility-timeout &lt;timeout_value&gt;]
         [--preview] [-h | --help]
 </p>
 <div class="paragraph"><p><span class="monospaced">nucleator beanstalk provision</span> creates an AWS Elastic Beanstalk
@@ -141,14 +145,14 @@ using subcommand options.</p></div>
 <p>
         --customer &lt;customer_name&gt;
         --cage &lt;cage_name&gt;
-        --limit_stackset_instance &lt;beanstalk_application_name&gt;
+        --app-name &lt;beanstalk_application_name&gt;
         [-h | --help]
 </p>
 <div class="paragraph"><p><span class="monospaced">nucleator beanstalk configure</span> performs post-provisioning configuration of
 all EC2 resources associated with the beanstalk.</p></div>
 <div class="paragraph"><p>By default all hosts associated with any instance of the <span class="monospaced">beanstalk</span>
 Stackset within the specified Cage will be configured. The
-<span class="monospaced">limit_stackset_instance</span> option can be used to optionally constrain
+<span class="monospaced">app-name</span> option can be used to optionally constrain
 the set of configured instances to hosts associated with a specified
 <span class="monospaced">beanstalk</span> Stackset instance.</p></div>
 </dd>
@@ -164,9 +168,9 @@ the set of configured instances to hosts associated with a specified
 <p>
         --customer &lt;customer_name&gt;
         --cage &lt;cage_name&gt;
-        --app_name &lt;app_name&gt;
-        --app_version &lt;beanstalk_application_version&gt;
-        --app_url &lt;application_url&gt;
+        --app-name &lt;app_name&gt;
+        --app-version &lt;beanstalk_application_version&gt;
+        --app-url &lt;application_url&gt;
 </p>
 <div class="paragraph"><p><span class="monospaced">nucleator beanstalk deploy</span> deploys the application deployment
 artifact at <span class="monospaced">&lt;application_url&gt;</span> (typically drawn from an artifactory)
@@ -187,7 +191,7 @@ is created within the beanstalk, and deployed to the specified
 <p>
         --customer &lt;customer_name&gt;
         --cage &lt;cage_name&gt;
-        --app_name &lt;beanstalk_application_name&gt;
+        --app-name &lt;beanstalk_application_name&gt;
 </p>
 <div class="paragraph"><p><span class="monospaced">nucleator beanstalk delete</span> attempts to delete the <span class="monospaced">beanstalk</span>
 Stackset instance specified by &lt;beanstalk_application_name&gt; from the
@@ -218,7 +222,7 @@ specified Nucleator Cage.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
---app_name &lt;beanstalk_application_name&gt;
+--app-name &lt;beanstalk_application_name&gt;
 </dt>
 <dd>
 <p>
@@ -235,12 +239,27 @@ specified Nucleator Cage.</p></div>
 </dt>
 <dd>
 <p>
-        The type of application environment to provision. Currently support
-        application types are "python" and "java".
+        The type of application environment to provision. Currently supported
+        application types are "java8", "java7", "nodejs", "python3", "python27",
+    "ruby22_pass", "ruby22_puma", "tomcat8", "tomcat7", "tomcat7java6",
+    "go", "docker17", "docker16".  These correspond to the AWS Beanstalk instance
+    types, so you may consult the AWS documentation for details.
 </p>
 </dd>
 <dt class="hdlist1">
---beanstalk_instance_type &lt;ec2_instance_type&gt;
+--tier &lt;tier_type&gt;
+</dt>
+<dd>
+<p>
+    The "tier" of the instance, meaning, either "worker" or "webserver".  A web
+    server instance is placed behind a load balancer and gets an internal DNS
+    entry.  A worker instance gets an SQS queue associated with it.  A daemon
+    is created and runs on the instance which reads that queue and posts messages
+    to the worker application when the queue is read.
+</p>
+</dd>
+<dt class="hdlist1">
+--beanstalk-instance-type &lt;ec2_instance_type&gt;
 </dt>
 <dd>
 <p>
@@ -251,7 +270,7 @@ specified Nucleator Cage.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
---database_instance_type &lt;rds_instance_type&gt;
+--database-instance-type &lt;rds_instance_type&gt;
 </dt>
 <dd>
 <p>
@@ -263,7 +282,7 @@ specified Nucleator Cage.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
---database_name &lt;database_name&gt;
+--database-name &lt;database_name&gt;
 </dt>
 <dd>
 <p>
@@ -273,7 +292,7 @@ specified Nucleator Cage.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
---database_user &lt;database_user&gt;
+--database-user &lt;database_user&gt;
 </dt>
 <dd>
 <p>
@@ -283,7 +302,7 @@ specified Nucleator Cage.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
---database_password &lt;database_password&gt;
+--database-password &lt;database_password&gt;
 </dt>
 <dd>
 <p>
@@ -292,11 +311,15 @@ specified Nucleator Cage.</p></div>
         Beanstalk.  Defaults to "DefaultPassword".  See also <a href="#FILES">[FILES]</a>.
 </p>
 </dd>
-</dl></div>
-<div class="paragraph"><p>--limit_stackset_instance &lt;beanstalk_application_name&gt;
+<dt class="hdlist1">
+--limit-stackset-instance &lt;beanstalk_application_name&gt;
+</dt>
+<dd>
+<p>
         Limits stackset configuration to hosts associated with <span class="monospaced">beanstalk</span>
-        Stackset instance <span class="monospaced">&lt;beanstalk_application_name&gt;</span>.</p></div>
-<div class="dlist"><dl>
+        Stackset instance <span class="monospaced">&lt;beanstalk_application_name&gt;</span>.
+</p>
+</dd>
 <dt class="hdlist1">
 --minscale &lt;min_value&gt;
 </dt>
@@ -318,7 +341,7 @@ specified Nucleator Cage.</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
---service_role &lt;iam_role_name&gt;
+--service-role &lt;iam_role_name&gt;
 </dt>
 <dd>
 <p>

@@ -60,11 +60,11 @@
         <div class="panel" style="border-width: 1px;"><div class="panelContent">
 <span><span>How to manually extend your siteconfig by telling </span>Nucleator which AWS Accounts to use for which Customers, and which Cages and AWS Regions you want to become provisionable.</span>
 </div></div><p> </p><p><style type='text/css'>/*<![CDATA[*/
-div.rbtoc1444001691437 {padding: 0px;}
-div.rbtoc1444001691437 ul {list-style: disc;margin-left: 0px;}
-div.rbtoc1444001691437 li {margin-left: 0px;padding-left: 0px;}
+div.rbtoc1455295403781 {padding: 0px;}
+div.rbtoc1455295403781 ul {list-style: disc;margin-left: 0px;}
+div.rbtoc1455295403781 li {margin-left: 0px;padding-left: 0px;}
 
-/*]]>*/</style><div class='toc-macro rbtoc1444001691437'>
+/*]]>*/</style><div class='toc-macro rbtoc1455295403781'>
 <ul class='toc-indentation'>
 <li><a href='#IncludeAdditionalCustomers,AccountsandCagesinyoursiteconfig-Extendyoursiteconfig'>Extend your siteconfig</a>
 <ul class='toc-indentation'>
@@ -162,8 +162,8 @@ cage_names:
  
   test1: # TODO - provide credentials for each AWS Account for which you would like Nucleator to assist with account setup
  
-    aws_access_key_id:  # TODO - provide IAM User credentials: access key ID
-    aws_secret_access_key:  # TODO - provide IAM User credentials: secret access key
+    aws_access_key_id: &lt;provide IAM User credentials: access key ID&gt;
+    aws_secret_access_key: &lt;provide IAM User credentials: secret access key&gt;
 
 </pre>
 </div></div><p>Note: the credentials above are not valid.  You need to replace them with values from your own Account.</p><h2 id="IncludeAdditionalCustomers,AccountsandCagesinyoursiteconfig-Summary">Summary</h2><p>Here's a summary of the Customer- and Account-specific information that Nucleator needs to be in place:</p>    <div class="aui-message success shadowed information-macro">
@@ -178,6 +178,13 @@ cage_names:
                             <span class="aui-icon icon-success">Icon</span>
                 <div class="message-content">
                             <p><strong><code><code>{{customer_name}}-{{cage_name}}.yml</code></code></strong></p><p style="margin-left: 30.0px;">Nucleator expects to find config parameters for each Cage defined for each customer in <code>{{customer_name}}-{{cage_name}}.yml</code> within the <code>siteconfig</code> directory accessible at <code>~/.nucleator/siteconfig/</code></p><ul><li><strong><code>first8</code></strong> – The first eight bits for the VPC associated with this cage. Nucleator users will typically use either <code>172</code> (the default in the Cage configuration template) or <code>10</code>.</li><li><strong><code>second8</code></strong> – The second eight bits for the VPC associated with this cage. If you do not have other driving requirements, you can use the default of <code>32</code> specified in the Cage configuration template, and increment by one for each subsequently defined Cage.</li><li><strong><code>network_topology</code></strong> – If needed, you can further refine the network topology used by this Cage by adjusting additional values from this Cage configuration file.</li></ul>
+                    </div>
+    </div>
+    <div class="aui-message success shadowed information-macro">
+                    <p class="title">cage certificate file</p>
+                            <span class="aui-icon icon-success">Icon</span>
+                <div class="message-content">
+                            <p><strong><code>{{customer_name}}-{{cage_name}}.crt</code></strong></p><p style="margin-left: 30.0px;">Nucleator site wizard creates a self-signed certificate file for you for each cage in the event you want to use SSL connections to your web servers and/or the builder stackset. If you need to create one of these files manually, use the instructions on the next page - <a href="Provide-SSL-Certificates-for-Your-Defined-Customers-and-Cages_23429204.html">Provide SSL Certificates for Your Defined Customers and Cages</a>.</p>
                     </div>
     </div>
     <div class="aui-message success shadowed information-macro">
@@ -198,7 +205,7 @@ cage_names:
 	<a href="../community.html">Community</a>
       </div>
       <footer>
-	&copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+	&copy; Copyright 2016, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
       </footer>
     </div>   </body>
 </html>
