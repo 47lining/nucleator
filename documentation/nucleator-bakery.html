@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.9" />
-<title>nucleator-redshift(1)</title>
+<title>nucleator-bakery(1)</title>
 <style type="text/css">
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
@@ -734,12 +734,12 @@ asciidoc.install();
 <body class="manpage">
 <div id="header">
 <h1>
-nucleator-redshift(1) Manual Page
+nucleator-bakery(1) Manual Page
 </h1>
 <h2>NAME</h2>
 <div class="sectionbody">
-<p>nucleator-redshift -
-   Provision Amazon Redshift clusters in Nucleator Cages
+<p>nucleator-bakery -
+   Provision, Configure and Publish Operations on EC2 Amazon Machine Images
 </p>
 </div>
 </div>
@@ -748,8 +748,10 @@ nucleator-redshift(1) Manual Page
 <h2 id="_synopsis">SYNOPSIS</h2>
 <div class="sectionbody">
 <div class="verseblock">
-<pre class="content"><em>nucleator redshift provision</em> &lt;args&gt; [options]
-<em>nucleator redshift delete</em> &lt;args&gt; [options]</pre>
+<pre class="content"><em>nucleator bakery provision</em> &lt;args&gt; [options]
+<em>nucleator bakery configure</em> &lt;args&gt; [options]
+<em>nucleator bakery publish</em> &lt;args&gt; [options]
+<em>nucleator bakery delete</em> &lt;args&gt; [options]</pre>
 <div class="attribution">
 </div></div>
 </div>
@@ -757,18 +759,22 @@ nucleator-redshift(1) Manual Page
 <div class="sect1">
 <h2 id="_description">DESCRIPTION</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The <code>redshift</code> command and its subcommands are used to create and maintain
-Amazon Redshift clusters within Nucleator Cages.</p></div>
-<div class="paragraph"><p>Running <code>nucleator redshift provision</code> multiple times is safe, because
-provisioning and configuration operations are idempotent. If no changes
-have been made to the Stackset definition in <code>~/.nucleator/contrib/redshift</code>,
-these commands will result in no change.  If updates were made to to the
+<div class="paragraph"><p>The <code>bakery</code> command and its subcommands are used to create and publish
+Amazon Machine Images.</p></div>
+<div class="paragraph"><p>Running <code>nucleator bakery provision</code> and <code>nucleator bakery
+configure</code> multiple times is safe, because provisioning and
+configuration operations are idempotent. If no changes have been made
+to the stackset definition in <code>~/.nucleator/contrib/bakery</code>, these
+commands will result in no change.  If updates were made to to the
 Stackset definition (via <code>nucleator update</code>, for example) that are
 consistent with CloudFormation&#8217;s "update in place" capabilities, the
-Stackset will be updated in place so that AWS Resources are brought
-into alignment with the new Stackset definition.</p></div>
-<div class="paragraph"><p>The <code>redshift</code> command provides the ability to easily manage
-provisioning parameters supporting setup and common scaling operations
+stackset will be updated in place so that AWS resources are brought
+into alignment with the new stackset definition.  This can be useful,
+for example, when modifying security groups to support application
+communication on various ports that the app may require.</p></div>
+<div class="paragraph"><p>The <code>bakery</code> command provides the ability to easily create an EC2 instance
+from an Amazon Machine Image (AMI), make the instance available for further
+configuration and then create (bake) a new AMI based on that instance
 via the Nucleator CLI.</p></div>
 </div>
 </div>
@@ -776,49 +782,93 @@ via the Nucleator CLI.</p></div>
 <h2 id="_subcommands">SUBCOMMANDS</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_redshift_provision">REDSHIFT PROVISION</h3>
+<h3 id="_bakery_provision">BAKERY PROVISION</h3>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-<em>nucleator redshift provision</em>
+<em>nucleator bakery provision</em>
 </dt>
 <dd>
 <p>
         --customer &lt;customer_name&gt;
-        --cage &lt;cage_name&gt;
-        --cluster_name &lt;redshift_cluster_name&gt;
-        --username &lt;db_user_name&gt;
-        --password &lt;db_user_password&gt;
-        [--cluster_type &lt;redshift_cluster_type&gt;]
-        [--num_nodes &lt;desired_number_of_nodes&gt;]
-        [--node_type &lt;desired_node_type&gt;]
-        [--database_name &lt;database_name&gt;]
-        [--encrypted &lt;true_or_false&gt;]
-        [--public &lt;true_or_false&gt;]
-        [--port &lt;database_port&gt;]
-        [--preview] [-h | --help]
+        --group &lt;bakery_ansible_role&gt;
+        [--cage &lt;cage_name&gt;]
+        [--ami-id &lt;id&gt;
+        [--ami-name &lt;name&gt;]
+        [--name &lt;instance_name&gt;]
+        [--keypair-name &lt;keypair_name&gt;]
 </p>
-<div class="paragraph"><p><code>nucleator redshift provision</code> creates an Amazon Redshift cluster
-in the specified Cage for the specified Customer.</p></div>
-<div class="paragraph"><p>The subcommand supports options that control the cluster size and type of
-instances to be used for cluster nodes.</p></div>
+<div class="paragraph"><p><code>nucleator bakery provision</code> creates an AWS EC2 instance in the specified
+cage for the specified customer.  Either an ID or a name must be provided
+for the source AMI from which the EC2 instance will be launched.  One of
+the two options must be provided.  If you expect to login to the instance,
+you should provide a keypair name.  If you don&#8217;t specify a cage name, it
+will use the <em>build</em> cage.  If you don&#8217;t specify a name for the instance,
+it will use <em>singleton</em>.</p></div>
+<div class="paragraph"><p>The <em>group</em> option lets you specify a set of Ansible roles which will be
+used during the provisioning, configuring and published steps.  These roles
+will go by the names "&lt;group&gt;_provision", "&lt;group&gt;_configure",
+"&lt;group&gt;_publish", "&lt;group&gt;_templates".  Examples of these are provided for
+both Linux and Windows instances in <a href="https://github.com/47lining/nucleator-core-bakery/tree/rc-1.0.3/samples">this GitHub repo</a>.  Those roles should be copied into your Nucleator installation
+directory:  <code>~/.nucleator/contrib/bakery-roles/ansible/roles/example_linux_provision</code>
+for example.</p></div>
 </dd>
 </dl></div>
 </div>
 <div class="sect2">
-<h3 id="_redshift_delete">REDSHIFT DELETE</h3>
+<h3 id="_bakery_configure">BAKERY CONFIGURE</h3>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-<em>nucleator redshift delete</em>
+<em>nucleator bakery configure</em>
 </dt>
 <dd>
 <p>
         --customer &lt;customer_name&gt;
-        --cage &lt;cage_name&gt;
-        --cluster_name &lt;redshift_cluster_name&gt;
+        --group &lt;bakery_ansible_role&gt;
+        [--cage &lt;cage_name&gt;]
+        [--name &lt;bakery_instance_name&gt;]
+        [-h | --help]
 </p>
-<div class="paragraph"><p><code>nucleator redshift delete</code> attempts to delete the <code>redshift</code>
-Stackset instance specified by &lt;redshift_cluster_name&gt; from the
-specified Nucleator Cage.</p></div>
+<div class="paragraph"><p><code>nucleator bakery configure</code> performs post-provisioning configuration of
+the EC2 instance associated with the bakery.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_bakery_publish">BAKERY PUBLISH</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator bakery publish</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --group &lt;bakery_ansible_role&gt;
+        --ami-name &lt;ami__name&gt;
+        [--cage &lt;cage_name&gt;]
+        [--name &lt;bakery_instance_name&gt;]
+        [--ami-region &lt;region&gt;]
+</p>
+<div class="paragraph"><p><code>nucleator bakery publish</code> creates the AMI from the named EC2 instance.  The ami-name is
+applied to that AMI which is published into the specified region.  If no region is
+specified, it will go into the same region as where the EC2 instance is running.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_bakery_delete">BAKERY DELETE</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator bakery delete</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --group &lt;bakery_ansible_role&gt;
+        --cage &lt;cage_name&gt;
+        --name &lt;bakery_instance_name&gt;
+</p>
+<div class="paragraph"><p><code>nucleator bakery delete</code> deletes the bakery instance specified by &lt;bakery_application_name&gt; from the
+specified Nucleator cage.</p></div>
 </dd>
 </dl></div>
 </div>
@@ -833,7 +883,7 @@ specified Nucleator Cage.</p></div>
 </dt>
 <dd>
 <p>
-        The name of the Customer for whom the specified Cage was provisioned.
+        The name of the customer for whom the specified cage was provisioned.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -841,115 +891,72 @@ specified Nucleator Cage.</p></div>
 </dt>
 <dd>
 <p>
-        The name of the Cage in which to provision and maintain the beanstalk.
+        The name of the cage in which to provision and maintain the bakery. When
+        this option is not required, the default is <em>build</em>.
 </p>
 </dd>
 <dt class="hdlist1">
---cluster_name &lt;cluster_name&gt;
+--group &lt;group_name&gt;
 </dt>
 <dd>
 <p>
-        The name of the Amazon Redshift cluster to provision,
-        configure, deploy or delete. Note that nucleator will extend this
-        base cluster name appending "-&lt;cage&gt;-&lt;customer&gt;" to support AWS
-        naming best practices and ensure uniqueness within the target AWS
-        account. So for example if "mycluster" is passed as cluster_name, the
-        provisioned cluster will be named "mycluster-&lt;cage&gt;-&lt;customer&gt;".
+        The name of a set if Ansible roles which will be used to provide custom
+        provisioning and configuration. These roles, written by the customer,
+        will go by the names "&lt;group&gt;_provision", "&lt;group&gt;_configure",
+        "&lt;group&gt;_publish", "&lt;group&gt;_templates".  Examples of these are provided for
+        both Linux and Windows instances in <a href="https://github.com/47lining/nucleator-core-bakery/tree/rc-1.0.3/samples">this GitHub repo</a>.  Those roles should be copied into your Nucleator installation
+        directory:  <code>~/.nucleator/contrib/bakery-roles/ansible/roles/example_linux_provision</code>
+        for example.
 </p>
 </dd>
 <dt class="hdlist1">
---cluster_type &lt;cluster_type&gt;
+--ami-id &lt;id&gt;
 </dt>
 <dd>
 <p>
-        The type of cluster to provision - either "single-node" or "multi-node".
-        The default is "single-node".
+        The ID of an Amazon Machine Image (AMI) which will be the source of the EC2 instance
+        which will be launched.  This AMI needs to reside in the region of the cage which
+        you have specified.  When this option is not required, it means that Nucelator will
+        look for an AMI with the name specified by the next option, "ami-name".
 </p>
 </dd>
 <dt class="hdlist1">
---num_nodes &lt;number_of_nodes&gt;
+--ami-name &lt;name&gt;
 </dt>
 <dd>
 <p>
-        The number of nodes to provision when deploying a multi-node cluster.
+        The name of an Amazon Machine Image (AMI) which will be the source of the EC2 instance
+        which will be launched.  This AMI needs to reside in the region of the cage which
+        you have specified.  When this option is not required, it means that Nucelator will
+        look for an AMI with the ID specified by the previous option, "ami-id".  For the <code>publish</code>
+        command, this value will be assigned to the resultant AMI.
 </p>
 </dd>
 <dt class="hdlist1">
---node_type &lt;node_type&gt;
+--name &lt;instance_name&gt;
 </dt>
 <dd>
 <p>
-        The Amazon instance type to be used for provisioned cluster nodes. Valid
-        values are "dw1.xlarge", "dw1.8xlarge", "dw2.large" and "dw2.8xlarge". The
-        default is "dw2.xlarge" which is eligible for AWS free tier usage.
+        The "instance_name" value will be assigned to the launched EC2 instance.  If this option is
+        not specified, a default value of <em>singleton</em> is used.
 </p>
 </dd>
 <dt class="hdlist1">
---username &lt;db_username&gt;
+--keypair-name &lt;keypair_name&gt;
 </dt>
 <dd>
 <p>
-        The root username for the provisioned Redshift cluster. The username must
-        be between 1 - 128 characters, contain only lowercase alphanumeric characters
-        and cannot be a Redshift reserved word.
+        If you will need to login to the launched EC2 instance, the keypair should be specified
+        so that it can be associated with the EC2 instance at launch time.
 </p>
 </dd>
 <dt class="hdlist1">
---password &lt;db_password&gt;
+--ami-region &lt;region_name&gt;
 </dt>
 <dd>
 <p>
-        The root password for the provisioned Redshift cluster. The password must be
-        between 8 - 64 characters and must contain at least one number, one lowercase
-        letter and one uppercase letter.
-</p>
-</dd>
-<dt class="hdlist1">
---database_name &lt;database_name&gt;
-</dt>
-<dd>
-<p>
-        The name of the initial Redshift database. Defaults to "defaultdb". The
-        database name must contain only lowercase alphanumeric characters, be
-        between 1 - 64 characters, and cannot be a Redshift reserved word.
-</p>
-</dd>
-<dt class="hdlist1">
---encrypted &lt;true_or_false&gt;
-</dt>
-<dd>
-<p>
-        Controls whether data is encrypted at rest within the Redshift cluster.
-        The default is "false".
-</p>
-</dd>
-<dt class="hdlist1">
---public &lt;true_or_false&gt;
-</dt>
-<dd>
-<p>
-        Controls whether the provisioned cluster can be accessed from a public
-        network. The default is "false".
-</p>
-</dd>
-<dt class="hdlist1">
---port &lt;port_number&gt;
-</dt>
-<dd>
-<p>
-        The port number to be used for the Redshift database. The default is 5439.
-</p>
-</dd>
-<dt class="hdlist1">
---preview
-</dt>
-<dd>
-<p>
-        When provisioning a cluster, rather than provision the cluster,
-        print preview information about what will be provisioned if
-        run without the <code>--preview</code> opion.  Preview text is intended
-        to be descriptive and may also include links to graphical
-        architecture diagrams.
+        The publish command will place the resulting AMI in the specified region.  If not specified,
+        the AMI will be published in the region where the EC2 instance is running.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -967,6 +974,38 @@ specified Nucleator Cage.</p></div>
 </div>
 </div>
 <div class="sect1">
+<h2 id="FILES">FILES</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+NUCLEATOR_INSTALL_DIR/nucleator-core/lib/nucleator/core/foundation/ansible/roles/config/vars/aws_service_config.yml
+</dt>
+<dd>
+<p>
+        AWS Services config file including dicts for currently supported EC2 and
+        RDS instance types.
+</p>
+</dd>
+<dt class="hdlist1">
+~/.nucleator/contrib/bakery/ansible/roles/bakery_provision/defaults/main.yml
+</dt>
+<dd>
+<p>
+        Default values for optional arguments to the <code>bakery</code> command.
+</p>
+</dd>
+<dt class="hdlist1">
+~/.nucleator/contrib/bakery-roles/ansible/roles
+</dt>
+<dd>
+<p>
+        The customer-provided Ansible roles should be placed in this directory.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_nucleator">NUCLEATOR</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Part of the <a href="nucleator.html">nucleator(1)</a> suite</p></div>
@@ -976,7 +1015,7 @@ specified Nucleator Cage.</p></div>
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-12-02 08:44:34 MST
+Last updated 2016-02-12 09:05:30 MST
 </div>
 </div>
 </body>
