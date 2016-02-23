@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 8.6.9">
+<meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1.0, initial-scale=1" />
+<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+<meta name="Author" content="47Lining LLC">
+<meta name="description" content="47Lining LLC: Nucleator DevOps Acceleration Tools">
+<meta name="keywords" content="Cloud, AWS, Amazon Web Services, Nucleator, Cloud, AWS, Amazon Web Services, Cloud Platform Operations, DevOps, Ansible">
+<title>Nucleator: nucleator-openvpn(1)</title>
+
+<link rel="stylesheet" href="../site/css/cli.css" type="text/css">
+
+    <link rel="stylesheet" href="../css/site.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_styles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/screen_layout_large.css" />
+    <link rel="stylesheet" type="text/css" media="only screen and (min-width:50px) and (max-width:1000px)" href="../css/screen_layout_small.css">
+
+
+
+    <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-58429312-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+</head>
+<body class="manpage">
+
+    <div class="page">
+      <div class="secondaryHeader">
+        <a class="secondaryLogo" href="../index.html"></a>
+      </div>
+      <article>
+        <div id="breadcrumb-section">
+          <ol id="breadcrumbs">
+                    <li>
+              <span><a href="Nucleator-Documentation_22052969.html">Nucleator Documentation</a></span>
+            </li>
+                      </ol>
+        </div>
+        <h1> Nucleator CLI Reference </h1>
+
+
+<div id="header">
+<h1>
+nucleator-openvpn(1) Manual Page
+</h1>
+<h2>NAME</h2>
+<div class="sectionbody">
+<p>nucleator-openvpn -
+   Provision, Configure and Delete Operations on an OpenVPN installation on an Amazon EC2 instance
+</p>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="_synopsis">SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="verseblock">
+<pre class="content"><em>nucleator openvpn provision</em> &lt;args&gt; [options]
+<em>nucleator openvpn configure</em> &lt;args&gt; [options]
+<em>nucleator openvpn delete</em> &lt;args&gt; [options]</pre>
+<div class="attribution">
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The <span class="monospaced">openvpn</span> command and its subcommands are used to create and configure
+an OpenVPN installation.  It creates an EC2 instance in the cage you specify,
+and creates the appropriate security groups and networking components.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_subcommands">SUBCOMMANDS</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_openvpn_provision">OPENVPN PROVISION</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator openvpn provision</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --cage &lt;cage_name&gt;
+        --name &lt;instance_name&gt;
+</p>
+<div class="paragraph"><p><span class="monospaced">nucleator openvpn provision</span> creates an AWS EC2 instance in the specified
+cage for the specified customer.  The name must be provided for the instance.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_openvpn_configure">OPENVPN CONFIGURE</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator openvpn configure</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --cage &lt;cage_name&gt;
+        --name &lt;instance_name&gt;
+</p>
+<div class="paragraph"><p><span class="monospaced">nucleator openvpn configure</span> performs post-provisioning configuration of
+the EC2 instance associated with the VPN server.</p></div>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_openvpn_delete">OPENVPN DELETE</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<em>nucleator openvpn delete</em>
+</dt>
+<dd>
+<p>
+        --customer &lt;customer_name&gt;
+        --cage &lt;cage_name&gt;
+        --name &lt;instance_name&gt;
+</p>
+<div class="paragraph"><p><span class="monospaced">nucleator openvpn delete</span> deletes the OpenVPN server instance specified by &lt;application_name&gt; from the specified Nucleator cage.</p></div>
+</dd>
+</dl></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options">OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+--customer &lt;customer_name&gt;
+</dt>
+<dd>
+<p>
+        The name of the customer for whom the specified cage was provisioned.
+</p>
+</dd>
+<dt class="hdlist1">
+--cage &lt;cage_name&gt;
+</dt>
+<dd>
+<p>
+        The name of the cage in which to provision and maintain the server.
+</p>
+</dd>
+<dt class="hdlist1">
+--name &lt;instance_name&gt;
+</dt>
+<dd>
+<p>
+        The "instance_name" value will be assigned to the launched EC2 instance.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="FILES">FILES</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+NUCLEATOR_INSTALL_DIR/nucleator-core/lib/nucleator/core/foundation/ansible/roles/config/vars/aws_service_config.yml
+</dt>
+<dd>
+<p>
+        AWS Services config file including dicts for currently supported EC2 and
+        RDS instance types.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_nucleator">NUCLEATOR</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Part of the <a href="nucleator.html">nucleator(1)</a> suite</p></div>
+</div>
+</div>
+      </article>
+      <div class="clear-fix"></div>
+      <div class="secondaryNav">
+        <a href="../installation.html">Installation</a>
+        <a href="index.html">Documentation</a>
+        <a href="../releases.html">Releases</a>
+        <a href="../license.html">License</a>
+        <a href="../community.html">Community</a>
+      </div>
+      <footer>
+        &copy; Copyright 2015, <a href="http://www.47lining.com" target="_blank">47Lining, LLC</a>
+      </footer>
+    </div>
+</body>
+</html>
